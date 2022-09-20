@@ -1,5 +1,8 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Query
 from typing import Optional
+from src.schemas.user import User
+from src.schemas.user_search_result import UserSearchResult
+
 app = FastAPI(
     title="Users API", openapi_url="/openapi.json"
 )
@@ -9,45 +12,45 @@ api_router = APIRouter()
 
 USERS = [
     {
-        'id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         'first_name': 'Mateo',
         'last_name': 'Calvo',
-        'username': 'calvomateo'
+        'username': 'calvomateo',
+        'email': 'mateo@mateo.com'
     },
     {
-        'id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         'first_name': 'Pedro',
         'last_name': 'Perez',
-        'username': 'pedroperez'
+        'username': 'pedroperez',
+        'email': 'pedro@perez.com'
     },
     {
-        'id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         'first_name': 'Pablo',
         'last_name': 'Perez',
-        'username': 'pabloperez'
+        'username': 'pabloperez',
+        'email': 'pablo@perez.com'
     },
     {
-        'id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         'first_name': 'Lucas',
         'last_name': 'Perez',
-        'username': 'lucasperez'
+        'username': 'lucasperez',
+        'email': 'lucas@perez.com'
     },
     {
-        'id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         'first_name': 'Lionel',
         'last_name': 'Messi',
-        'username': 'liomessi'
+        'username': 'liomessi',
+        'email': 'lio@messi.com'
     },
     {
-        'id': 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',
         'first_name': 'Lisa',
         'last_name': 'Su',
-        'username': 'lisasu'
+        'username': 'lisasu',
+        'email': 'lisasu@amd.com'
     }
 ]
 
 
-@api_router.get("/users/{user_id}", status_code=200)
+@api_router.get("/users/{user_id}", status_code=200, response_model=User)
 def fetch_user(user_id: str) -> dict:
     """
     Fetch a single user by ID
@@ -64,8 +67,9 @@ def root() -> dict:
     """
     return {"msg": "Hello, World!"}
 
-@api_router.get('/search/', status_code=200)
-def search_user(username: Optional[str] = None, max_results: Optional[int] = 2) -> dict:
+
+@api_router.get('/search/', status_code=200, response_model=UserSearchResult)
+def search_user(username: Optional[str] = Query(None, min_lenght=3, example='liomessi'), max_results: Optional[int] = 2) -> dict:
     """
     Search for users based on username
     """
