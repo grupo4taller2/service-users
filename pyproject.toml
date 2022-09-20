@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "service-users"
+version = "1.0.0"
+description = "First demo for walking skeleton"
+authors = ["Mateo Calvo <macalvo@fi.uba.ar>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+uvicorn = "^0.15.0"
+fastapi = "^0.83.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
