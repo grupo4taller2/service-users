@@ -8,11 +8,6 @@ class UserBase(BaseModel):
     email: str
 
 
-# Additional properties to return via API
-class User(UserBase):
-    pass
-
-
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     first_name: str
@@ -28,7 +23,7 @@ class UserUpdate(UserBase):
 
 # Properties shared by models stored in DB
 class UserInDBBase(UserBase):
-    id: int
+    #id: int
     # TODO: pass? o en el API GATEWAY?
 
     class Config:
@@ -39,3 +34,7 @@ class UserInDBBase(UserBase):
 class UserInDB(UserInDBBase):
     pass
 
+
+# Additional properties to return via API
+class User(UserInDB):
+    pass
