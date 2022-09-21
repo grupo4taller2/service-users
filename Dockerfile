@@ -9,20 +9,23 @@ WORKDIR /opt/app/
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt ./
-RUN chown fiuber:fiuber /opt/app && \
+COPY requirements.txt alembic.ini ./
+RUN chown -R fiuber:fiuber /opt/app /tmp && \
     pip install -r requirements.txt
 
-FROM base as prod
+FROM base as prod-preinstall
 # RUN echo "copying necesary files for PROD"
 COPY src ./src
+COPY alembic ./alembic
 USER fiuber
 CMD python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT
 
-FROM base as dev
+FROM base as dev-preinstall
 # RUN echo "Installing necesary libs for DEV"
 RUN pip install flake8==5.0.4 \
     coverage==6.4.4 \
     pytest==7.1.3
 USER fiuber
 CMD bash
+
+FROM ${APP_ENV}-preinstall as final
