@@ -1,12 +1,14 @@
-from fastapi import FastAPI, APIRouter, Query
-from typing import Optional
+from fastapi import FastAPI, APIRouter, Query, HTTPException
+from fastapi.responses import JSONResponse
+
+from typing import Optional, Any
+
 from src.schemas.user import User
 from src.schemas.user_search_result import UserSearchResult
 
 app = FastAPI(
     title="Users API", openapi_url="/openapi.json"
 )
-
 
 api_router = APIRouter()
 
@@ -50,14 +52,17 @@ USERS = [
 ]
 
 
-@api_router.get("/users/{user_id}", status_code=200, response_model=User)
-def fetch_user(user_id: str) -> dict:
+@api_router.get("/users/{username}", status_code=200, response_model=User)
+def fetch_user(username: str) -> Any:
     """
-    Fetch a single user by ID
+    Fetch a single user by username
     """
-    result = [u for u in USERS if u['id'] == user_id]
-    if result:
-        return result[0]
+    result = [u for u in USERS if u['username'] == username]
+    if not result:
+        raise HTTPException(
+            status_code=404, detail=f"User {username} not found"
+        )
+    return result[0]
 
 
 @api_router.get("/", status_code=200)
@@ -77,6 +82,21 @@ def search_user(username: Optional[str] = Query(None, min_lenght=3, example='lio
         return {'results': []}
     results = filter(lambda u: username.lower() in u['username'], USERS)
     return {'results': list(results)[:max_results]}
+
+
+@api_router.post("/users/", status_code=201, response_model=User)
+def create_recipe(user_in: User) -> User:
+    """
+    Create a new user
+    """
+    user_entry: User = User(
+        first_name=user_in.first_name,
+        last_name=user_in.last_name,
+        username=user_in.username,
+        email=user_in.email
+    )
+    USERS.append(user_entry.dict())
+    return user_entry
 
 
 app.include_router(api_router)

@@ -9,23 +9,20 @@ WORKDIR /opt/app/
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY pyproject.toml ./
-RUN apt update && apt install -y curl && \
-    curl -sSL https://install.python-poetry.org/ | POETRY_HOME=/opt/poetry python && \
-    /opt/poetry/bin/poetry config virtualenvs.create false && \
-    /opt/poetry/bin/poetry install --no-root && \
-    chown fiuber:fiuber /opt/app
+COPY requirements.txt ./
+RUN chown fiuber:fiuber /opt/app && \
+    pip install -r requirements.txt
 
-FROM base as prod-preinstall
+FROM base as prod
 # RUN echo "copying necesary files for PROD"
 COPY src ./src
 USER fiuber
 CMD python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT
 
-FROM base as dev-preinstall
+FROM base as dev
 # RUN echo "Installing necesary libs for DEV"
-RUN /opt/poetry/bin/poetry add flake8 coverage pytest
+RUN pip install flake8==5.0.4 \
+    coverage==6.4.4 \
+    pytest==7.1.3
 USER fiuber
-
-FROM ${APP_ENV}-preinstall as final
-
+CMD bash
