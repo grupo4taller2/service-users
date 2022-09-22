@@ -34,7 +34,9 @@ def root(request: Request,
 
 
 @api_router.get('/search/', status_code=200, response_model=UserSearchResult)
-def search_user(username: Optional[str] = Query(None, min_lenght=3, example='liomessi'),
+def search_user(username: Optional[str] = Query(None,
+                                                min_lenght=3,
+                                                example='liomessi'),
                 max_results: Optional[int] = 2,
                 db: Session = Depends(deps.get_db)) -> dict:
     """
@@ -60,7 +62,6 @@ def create_ruser(user_in: User) -> User:
     )
     USERS.append(user_entry.dict())
     return user_entry
-
 
 app.include_router(api_router)
 '''

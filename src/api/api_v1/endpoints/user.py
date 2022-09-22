@@ -1,11 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from typing import Any, Optional
+from typing import Any
 
 from src.crud.crud_user import user
 
 from src.api import deps
-from src.schemas.user import User, UserCreate
+from src.schemas.user import User
 
 router = APIRouter()
 

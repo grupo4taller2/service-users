@@ -23,7 +23,7 @@ class UserUpdate(UserBase):
 
 # Properties shared by models stored in DB
 class UserInDBBase(UserBase):
-    #id: int
+    # id: int
     # TODO: pass? o en el API GATEWAY?
 
     class Config:
