@@ -15,6 +15,7 @@ RUN chown -R fiuber:fiuber /opt/app /tmp && \
 
 FROM base as prod-preinstall
 # RUN echo "copying necesary files for PROD"
+ENV SQLALCHEMY_DATABASE_URI $DATABASE_URL
 COPY src ./src
 COPY alembic ./alembic
 USER fiuber
