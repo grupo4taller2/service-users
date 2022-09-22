@@ -1,5 +1,5 @@
 from logging.config import fileConfig
-from src.db.session import SQLALCHEMY_DATABASE_URI
+from src.core.config import settings
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
@@ -39,7 +39,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = SQLALCHEMY_DATABASE_URI
+    url = settings.SQLALCHEMY_DATABASE_URI
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -59,7 +59,7 @@ def run_migrations_online() -> None:
 
     """
     configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = SQLALCHEMY_DATABASE_URI
+    configuration["sqlalchemy.url"] = settings.SQLALCHEMY_DATABASE_URI
     connectable = engine_from_config(
         configuration,
         prefix="sqlalchemy.",

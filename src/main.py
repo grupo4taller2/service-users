@@ -1,21 +1,13 @@
-from fastapi import FastAPI, APIRouter, Query, HTTPException, Depends, Request
-from sqlalchemy.orm import Session
-# TODO: Import this in a cleaner way
-from src.crud.crud_user import user as user
-import src.deps as deps
+from fastapi import FastAPI, APIRouter
+from src.core.config import settings
+from src.api.api_v1.api import api_router
 
-from typing import Optional, Any
+root_router = APIRouter()
+app = FastAPI(title="Users API", openapi_url="/openapi.json")
+app.include_router(api_router, prefix=settings.API_V1_STR)
+app.include_router(root_router)
 
-from src.schemas.user import User
-from src.schemas.user_search_result import UserSearchResult
-
-app = FastAPI(
-    title="Users API", openapi_url="/openapi.json"
-)
-
-api_router = APIRouter()
-
-
+'''
 @api_router.get("/users/{username}", status_code=200, response_model=User)
 def fetch_user(username: str,
                db: Session = Depends(deps.get_db)) -> Any:
@@ -71,3 +63,4 @@ def create_ruser(user_in: User) -> User:
 
 
 app.include_router(api_router)
+'''
