@@ -19,7 +19,7 @@ COPY src ./src
 COPY alembic ./alembic
 USER fiuber
 #CMD python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT
-CMD bash -c 'sleep 5 && alembic upgrade head && python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT
+CMD bash -c 'sleep 5 && alembic upgrade head && python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT'
 
 FROM base as dev-preinstall
 # RUN echo "Installing necesary libs for DEV"
