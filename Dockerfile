@@ -18,8 +18,8 @@ FROM base as prod-preinstall
 COPY requirements-prod.txt ./
 COPY src ./src
 COPY alembic ./alembic
-USER fiuber
 RUN pip install -r requirements-prod.txt
+USER fiuber
 
 CMD bash -c 'sleep 5 && alembic upgrade head && python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT'
 
