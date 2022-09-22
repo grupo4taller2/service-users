@@ -1,5 +1,14 @@
 # service-users
 
+
+![example workflow](https://github.com/grupo4taller2/service-users/actions/workflows/test.yml/badge.svg)
+
+[![heroku](https://github.com/grupo4taller2/service-users/actions/workflows/deploy.yml/badge.svg)](https://g4-fiuber-serivce-users.herokuapp.com/docs)
+
+[![codecov](https://codecov.io/gh/grupo4taller2/service-users/branch/main/graph/badge.svg?token=C3GAHNA3D0)](https://codecov.io/gh/grupo4taller2/service-users)
+
+---
+
 > In order to trigger the alembic migrations, you run the `alembic upgrade head` command.
 When you make any change to a database table, you capture that change by running `alembic
 revision --autogenerate -m "Some description"` - this will generate a new file in the 
