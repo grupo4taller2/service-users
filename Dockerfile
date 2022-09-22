@@ -15,17 +15,18 @@ RUN chown -R fiuber:fiuber /opt/app /tmp && \
 
 FROM base as prod-preinstall
 # RUN echo "copying necesary files for PROD"
+COPY requirements-prod.txt ./
 COPY src ./src
 COPY alembic ./alembic
 USER fiuber
-#CMD python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT
+RUN pip install -r requirements-prod.txt
+
 CMD bash -c 'sleep 5 && alembic upgrade head && python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT'
 
 FROM base as dev-preinstall
 # RUN echo "Installing necesary libs for DEV"
-RUN pip install flake8==5.0.4 \
-    coverage==6.4.4 \
-    pytest==7.1.3
+COPY requirements-dev.txt ./
+RUN pip install -r requirements-dev.txt
 USER fiuber
 CMD bash
 
