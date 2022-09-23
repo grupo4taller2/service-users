@@ -4,7 +4,7 @@
 
 ![Test](https://github.com/grupo4taller2/service-users/actions/workflows/test.yml/badge.svg)
 
-[![Heroku Deploy](https://github.com/grupo4taller2/service-users/actions/workflows/deploy.yml/badge.svg)](https://g4-fiuber-serivce-users.herokuapp.com/docs)
+[![Heroku Deploy](https://github.com/grupo4taller2/service-users/actions/workflows/deploy.yml/badge.svg)](https://g4-fiuber-service-users.herokuapp.com/docs)
 
 [![Codecov Test coverage](https://codecov.io/gh/grupo4taller2/service-users/branch/main/graph/badge.svg?token=C3GAHNA3D0)](https://codecov.io/gh/grupo4taller2/service-users)
 
