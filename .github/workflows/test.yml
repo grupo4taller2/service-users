@@ -1,10 +1,6 @@
 name: Test
 
 on: [workflow_call]
-  push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
 
 jobs:
   run-tests:
