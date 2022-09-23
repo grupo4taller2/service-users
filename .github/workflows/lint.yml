@@ -1,8 +1,9 @@
 name: Lint
 
 on: [workflow_call]
+
 jobs:
-  run-linter:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
