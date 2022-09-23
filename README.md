@@ -1,11 +1,12 @@
 # service-users
 
+![Lint](https://github.com/grupo4taller2/service-users/actions/workflows/lint.yml/badge.svg)
 
-![example workflow](https://github.com/grupo4taller2/service-users/actions/workflows/test.yml/badge.svg)
+![Test](https://github.com/grupo4taller2/service-users/actions/workflows/test.yml/badge.svg)
 
-[![heroku](https://github.com/grupo4taller2/service-users/actions/workflows/deploy.yml/badge.svg)](https://g4-fiuber-serivce-users.herokuapp.com/docs)
+[![Heroku Deploy](https://github.com/grupo4taller2/service-users/actions/workflows/deploy.yml/badge.svg)](https://g4-fiuber-serivce-users.herokuapp.com/docs)
 
-[![codecov](https://codecov.io/gh/grupo4taller2/service-users/branch/main/graph/badge.svg?token=C3GAHNA3D0)](https://codecov.io/gh/grupo4taller2/service-users)
+[![Codecov Test coverage](https://codecov.io/gh/grupo4taller2/service-users/branch/main/graph/badge.svg?token=C3GAHNA3D0)](https://codecov.io/gh/grupo4taller2/service-users)
 
 ---
 
