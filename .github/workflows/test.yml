@@ -3,6 +3,8 @@ name: Test
 on: [workflow_call]
 
 jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
   run-tests:
     runs-on: ubuntu-latest
     needs: [Lint]
