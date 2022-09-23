@@ -1,11 +1,11 @@
 name: Deploy
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: [ "Test" ]
+    types:
+      - completed
 jobs:
-  test:
-    uses: ./.github/workflows/test.yml
   deploy:
     runs-on: ubuntu-latest
     needs: [Test]
