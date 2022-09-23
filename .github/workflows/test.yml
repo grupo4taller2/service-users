@@ -4,6 +4,7 @@ on: [workflow_call]
 
 jobs:
   lint:
+    uses: ./.github/workflows/lint.yml
   test:
     runs-on: ubuntu-latest
     needs: [Lint]
