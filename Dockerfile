@@ -1,4 +1,4 @@
-ARG APP_ENV=prod
+ARG APP_ENV=production
 
 FROM python:3.10-slim-bullseye AS base
 
@@ -13,7 +13,7 @@ COPY requirements.txt alembic.ini ./
 RUN chown -R fiuber:fiuber /opt/app /tmp && \
     pip install -r requirements.txt
 
-FROM base as prod-preinstall
+FROM base as production-preinstall
 # RUN echo "copying necesary files for PROD"
 COPY requirements-prod.txt ./
 COPY src ./src
@@ -23,7 +23,7 @@ USER fiuber
 
 CMD bash -c 'sleep 5 && alembic upgrade head && python3 -m uvicorn src.main:app --host=0.0.0.0 --port=$PORT'
 
-FROM base as dev-preinstall
+FROM base as development-preinstall
 # RUN echo "Installing necesary libs for DEV"
 COPY requirements-dev.txt ./
 RUN pip install -r requirements-dev.txt
