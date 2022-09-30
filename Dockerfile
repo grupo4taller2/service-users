@@ -9,8 +9,7 @@ WORKDIR /opt/app/
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-#COPY requirements.txt alembic.ini ./
-COPY requirements.txt ./
+COPY requirements.txt alembic.ini ./
 RUN chown -R fiuber:fiuber /opt/app /tmp && \
     pip install -r requirements.txt
 
