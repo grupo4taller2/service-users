@@ -9,21 +9,23 @@ router = APIRouter(tags=['users'])
 app = FastAPI(title="Users API", openapi_url="/openapi.json")
 app.include_router(router)
 
+
 @router.post("/asd/{username}", status_code=201)
 def fetch_user(username: str) -> Any:
     """
     Fetch a single user by username
     """
     cmd = commands.UserCreateCommand(username,
-                              username,
-                              username,
-                              "a@a.a",
-                              username,
-                              username)
+                                     username,
+                                     username,
+                                     "a@a.a",
+                                     username,
+                                     username)
 
     uow = UserUnitOfWork()
     messagebus.handle(cmd, uow)
     return 'OK'
+
 
 router2 = APIRouter(tags=["health"])
 
@@ -33,8 +35,9 @@ router2 = APIRouter(tags=["health"])
 async def health():
     return 'Todo muy bien por aqui'
 
+
 @router2.post("/health/{new_username}", status_code=201)
-def fetch_user(new_username: str) -> Any:
+def fetch_user_other(new_username: str) -> Any:
     """
     Fetch a single user by username
     """
