@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ast import Pass
 from typing import Union
 
 from sqlalchemy import Column, String, DateTime
@@ -6,6 +7,8 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 
 from src.domain.user import User
+from src.domain.password import Password
+from src.domain.password_encoder import NoEncoder
 import uuid
 
 Base = declarative_base()
@@ -37,7 +40,7 @@ class UserDTO(Base):
             first_name=user.first_name,
             last_name=user.last_name,
             email=user.email,
-            hashed_password=user.password,
+            hashed_password=user.password.hashed_password,
             wallet=user.wallet,
         )
 
@@ -47,7 +50,7 @@ class UserDTO(Base):
             first_name=self.first_name,
             last_name=self.last_name,
             email=self.email,
-            password=self.hashed_password,
+            password=Password(NoEncoder, self.hashed_password),
             wallet=self.wallet,
             events=[]
         )

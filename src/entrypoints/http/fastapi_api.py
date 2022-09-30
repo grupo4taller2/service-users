@@ -36,6 +36,10 @@ async def health():
     return 'Todo muy bien por aqui'
 
 
+@router2.get("/health/{username}", status_code=200)
+def fetch_user_by_username(username: str):
+    
+
 @router2.post("/health/{new_username}", status_code=201)
 def fetch_user_other(new_username: str) -> Any:
     """
