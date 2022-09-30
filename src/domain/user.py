@@ -1,4 +1,3 @@
-from ast import Pass
 from typing import List, Optional
 from pydantic import BaseModel, EmailStr
 
@@ -15,7 +14,7 @@ class User(BaseModel):
     wallet: str
     events: Optional[List[Event]]
     # TODO: Add created_at, updated_at, etc
-    
+
     class Config:
         arbitrary_types_allowed = True
 

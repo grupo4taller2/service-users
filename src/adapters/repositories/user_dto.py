@@ -1,5 +1,4 @@
 from __future__ import annotations
-from ast import Pass
 from typing import Union
 
 from sqlalchemy import Column, String, DateTime

@@ -15,6 +15,7 @@ class ByCryptPasswordEncoder(PasswordEncoder):
     def encode(self, password: str) -> str:
         return self.pwd_context.hash(password)
 
+
 class NoEncoder(PasswordEncoder):
     def encode(self, password: str) -> str:
         return password
