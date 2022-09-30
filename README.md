@@ -14,3 +14,6 @@
 When you make any change to a database table, you capture that change by running `alembic
 revision --autogenerate -m "Some description"` - this will generate a new file in the 
 versions directory which you should always check.
+
+
+> alembic -c ./alembic/alembic.ini revision --autogenerate -m "First table"
