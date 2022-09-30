@@ -1,13 +1,15 @@
-from typing import Optional, List
+from typing import List
 from pydantic import BaseModel, EmailStr
 
+from src.domain.events import Event
 
-class User:
-    def __init__(self, username, first_name, last_name, email, password, wallet):
-        self.username = username
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
-        self.hashed_password = password
-        self.wallet = wallet
-        self.events = []
+
+class User(BaseModel):
+    username: str
+    first_name: str
+    last_name: str
+    email: EmailStr
+    password: str
+    wallet: str
+    events: List[Event]
+    # TODO: Add created_at, updated_at, etc

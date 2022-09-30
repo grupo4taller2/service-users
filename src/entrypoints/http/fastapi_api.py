@@ -34,17 +34,17 @@ router2 = APIRouter(tags=["health"])
 async def health():
     return 'OsssK'
 
-@router2.post("/health/{username}", status_code=201)
-def fetch_user(username: str) -> Any:
+@router2.post("/health/{new_username}", status_code=201)
+def fetch_user(new_username: str) -> Any:
     """
     Fetch a single user by username
     """
-    cmd = commands.CreateUser(username,
-                              username,
-                              username,
+    cmd = commands.CreateUser(new_username,
+                              new_username,
+                              new_username,
                               "a@a.a",
-                              username,
-                              username)
+                              new_username,
+                              new_username)
 
     uow = unit_of_work.UserUnitOfWork()
     messagebus.handle(cmd, uow)

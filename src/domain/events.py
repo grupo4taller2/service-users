@@ -1,11 +1,10 @@
-from dataclasses import dataclass
+from pydantic import BaseModel, EmailStr
 
 
-class Event:
+class Event(BaseModel):
     pass
 
 
-@dataclass
-class Created(Event):
+class UserCreatedEvent(Event):
     username: str
-    email: str
+    email: EmailStr

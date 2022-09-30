@@ -32,8 +32,8 @@ users = Table(
     Column('email', String(EMAIL_MAX_LEN), nullable=False),
     Column('hashed_password', String(HASHED_PASS_LEN), nullable=False),
     Column('wallet', String(WALLET_LEN), nullable=False),
-    Column('created_at', DateTime(timezone=True), server_default=func.now()),
-    Column('modified_at', DateTime(timezone=True), server_default=func.now())
+    Column('created_at', DateTime(timezone=True)),
+    Column('modified_at', DateTime(timezone=True))
 )
 
 

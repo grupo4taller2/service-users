@@ -1,10 +1,11 @@
 import abc
 from src.domain.user import User
+from typing import Set
 
 
 class UserBaseRepository(metaclass=abc.ABCMeta):
     def __init__(self):
-        self.seen = set()
+        self.seen: Set[User] = set()
 
     @abc.abstractmethod
     def save(self, user: User):

@@ -1,15 +1,14 @@
-from dataclasses import dataclass
+from pydantic import BaseModel, EmailStr
 
 
-class Command:
+class Command(BaseModel):
     pass
 
 
-@dataclass
-class CreateUser(Command):
+class UserCreateCommand(Command):
     username: str
     first_name: str
     last_name: str
-    email: str
+    email: EmailStr
     password: str
     wallet: str
