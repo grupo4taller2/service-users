@@ -9,7 +9,8 @@ WORKDIR /opt/app/
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-COPY requirements.txt alembic.ini ./
+#COPY requirements.txt alembic.ini ./
+COPY requirements.txt ./
 RUN chown -R fiuber:fiuber /opt/app /tmp && \
     pip install -r requirements.txt
 
@@ -27,7 +28,7 @@ FROM base as development-preinstall
 # RUN echo "Installing necesary libs for DEV"
 COPY requirements-dev.txt ./
 RUN pip install -r requirements-dev.txt
-USER fiuber
+#USER fiuber
 CMD bash
 
 FROM ${APP_ENV}-preinstall as final
