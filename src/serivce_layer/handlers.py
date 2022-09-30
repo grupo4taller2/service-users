@@ -14,12 +14,12 @@ def create_user(cmd: UserCreateCommand, uow: AbstractUserUnitOfWork):
     with uow:
         user = uow.repository.find_by_username(username=cmd.username)
         if user is None:
-            user = User(cmd.username,
-                        cmd.first_name,
-                        cmd.last_name,
-                        cmd.email,
-                        cmd.password,
-                        cmd.wallet)
+            user = User(username=cmd.username,
+                        first_name=cmd.first_name,
+                        last_name=cmd.last_name,
+                        email=cmd.email,
+                        password=cmd.password,
+                        wallet=cmd.wallet)
             uow.repository.save(user)
         uow.commit()
 

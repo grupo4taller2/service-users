@@ -62,9 +62,9 @@ def handle_command(
 
 
 EVENT_HANDLERS = {
-    events.Created: [handlers.publish_created_event],
+    events.UserCreatedEvent: [handlers.publish_created_event],
 }  # type: Dict[Type[events.Event], List[Callable]]
 
 COMMAND_HANDLERS = {
-    commands.CreateUser: handlers.create_user,
+    commands.UserCreateCommand: handlers.create_user,
 }  # type: Dict[Type[commands.Command], Callable]

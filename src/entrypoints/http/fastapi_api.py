@@ -2,10 +2,9 @@ from fastapi import APIRouter, FastAPI
 from typing import Any
 
 from src.domain import commands
-from src.adapters import orm
-from src.serivce_layer import messagebus, unit_of_work
+from src.serivce_layer import messagebus
+from src.adapters.repositories.user_unit_of_work import UserUnitOfWork
 
-orm.start_mappers()
 router = APIRouter(tags=['users'])
 app = FastAPI(title="Users API", openapi_url="/openapi.json")
 app.include_router(router)
@@ -15,14 +14,14 @@ def fetch_user(username: str) -> Any:
     """
     Fetch a single user by username
     """
-    cmd = commands.CreateUser(username,
+    cmd = commands.UserCreateCommand(username,
                               username,
                               username,
                               "a@a.a",
                               username,
                               username)
 
-    uow = unit_of_work.UserUnitOfWork()
+    uow = UserUnitOfWork()
     messagebus.handle(cmd, uow)
     return 'OK'
 
@@ -32,21 +31,23 @@ router2 = APIRouter(tags=["health"])
 @router2.get(
     '/health')
 async def health():
-    return 'OsssK'
+    return 'Todo muy bien por aqui'
 
 @router2.post("/health/{new_username}", status_code=201)
 def fetch_user(new_username: str) -> Any:
     """
     Fetch a single user by username
     """
-    cmd = commands.CreateUser(new_username,
-                              new_username,
-                              new_username,
-                              "a@a.a",
-                              new_username,
-                              new_username)
+    cmd = commands.UserCreateCommand(
+        username=new_username,
+        first_name='ElNombre',
+        last_name='ElApellido',
+        email='email@test.com',
+        password='SuperSecret',
+        wallet='la_wallet'
+        )
 
-    uow = unit_of_work.UserUnitOfWork()
+    uow = UserUnitOfWork()
     messagebus.handle(cmd, uow)
     return 'OK'
 

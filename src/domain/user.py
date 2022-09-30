@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel, EmailStr
 
 from src.domain.events import Event
@@ -11,5 +11,11 @@ class User(BaseModel):
     email: EmailStr
     password: str
     wallet: str
-    events: List[Event]
+    events: Optional[List[Event]]
     # TODO: Add created_at, updated_at, etc
+
+    def __hash__(self):
+        return hash(self.username)
+
+    def __eq__(self, other):
+        return self.username == other.username

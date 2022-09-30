@@ -20,7 +20,7 @@ class UserUnitOfWork(AbstractUserUnitOfWork):
 
     def __enter__(self):
         self.session = self.session_factory()
-        self.users = UserRepository(self.session)
+        self.repository = UserRepository(self.session)
         return super().__enter__()
 
     def __exit__(self, *args):

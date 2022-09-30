@@ -6,6 +6,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 
 from src.domain.user import User
+import uuid
 
 Base = declarative_base()
 
@@ -31,6 +32,7 @@ class UserDTO(Base):
     @staticmethod
     def from_entity(user: User) -> UserDTO:
         return UserDTO(
+            id=uuid.uuid4(),
             username=user.username,
             first_name=user.first_name,
             last_name=user.last_name,
