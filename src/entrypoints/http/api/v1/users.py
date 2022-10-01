@@ -26,7 +26,8 @@ async def get_user(a_username: str):
     return UserResponse(username=user.username,
                         first_name=user.first_name,
                         last_name=user.last_name,
-                        email=user.email)
+                        email=user.email,
+                        wallet=user.wallet)
 
 
 @router.post(
@@ -48,4 +49,4 @@ async def create_user(req: UserRequest):
     return UserResponse(username=user.username,
                         first_name=user.first_name,
                         last_name=user.last_name,
-                        email=user.email)
+                        wallet=user.wallet)

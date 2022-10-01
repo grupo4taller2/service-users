@@ -17,3 +17,4 @@ class UserResponse(BaseModel):
     first_name: str = Field(example="fname")
     last_name: str = Field(example="lname")
     email: EmailStr = Field(example="user@domain.com")
+    wallet: str = Field(example="cryptowallet")
