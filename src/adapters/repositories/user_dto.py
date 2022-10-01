@@ -49,7 +49,7 @@ class UserDTO(Base):
             first_name=self.first_name,
             last_name=self.last_name,
             email=self.email,
-            password=Password(NoEncoder, self.hashed_password),
+            password=Password(NoEncoder(), self.hashed_password),
             wallet=self.wallet,
             events=[]
         )

@@ -1,5 +1,6 @@
 from src.domain.commands import (
-    UserCreateCommand
+    UserCreateCommand,
+    UserGetCommand
 )
 from src.domain.events import (
     UserCreatedEvent
@@ -12,9 +13,18 @@ from src.domain.password import Password
 from src.domain.password_encoder import ByCryptPasswordEncoder, CryptContext
 
 
+def get_user(cmd: UserGetCommand, uow: AbstractUserUnitOfWork):
+    # FIXME: THROW IF NOT EXISTS
+    with uow:
+        user = uow.repository.find_by_username(username=cmd.username)
+        uow.commit()
+        return user
+
+
 def create_user(cmd: UserCreateCommand, uow: AbstractUserUnitOfWork):
     with uow:
         user = uow.repository.find_by_username(username=cmd.username)
+        # FIXME: Throw if user exists
         if user is None:
             user = User(
                 username=cmd.username,
@@ -29,6 +39,7 @@ def create_user(cmd: UserCreateCommand, uow: AbstractUserUnitOfWork):
                 wallet=cmd.wallet)
             uow.repository.save(user)
         uow.commit()
+        return user
 
 
 def publish_created_event(event: UserCreatedEvent,

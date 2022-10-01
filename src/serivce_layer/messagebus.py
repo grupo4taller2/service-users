@@ -15,7 +15,7 @@ Message = Union[commands.Command, events.Event]
 def handle(
     message: Message,
     uow: AbstractUserUnitOfWork,
-):
+) -> List:
     results = []
     queue = [message]
     while queue:
@@ -67,4 +67,5 @@ EVENT_HANDLERS = {
 
 COMMAND_HANDLERS = {
     commands.UserCreateCommand: handlers.create_user,
+    commands.UserGetCommand: handlers.get_user
 }  # type: Dict[Type[commands.Command], Callable]

@@ -12,3 +12,7 @@ class UserCreateCommand(Command):
     email: EmailStr
     password: str
     wallet: str
+
+
+class UserGetCommand(Command):
+    username: str
