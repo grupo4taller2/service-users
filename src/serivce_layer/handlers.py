@@ -1,3 +1,5 @@
+from src.conf.config import Settings
+
 from src.domain.commands import (
     UserCreateCommand,
     UserGetCommand
@@ -26,16 +28,17 @@ def create_user(cmd: UserCreateCommand, uow: AbstractUserUnitOfWork):
         user = uow.repository.find_by_username(username=cmd.username)
         # FIXME: Throw if user exists
         if user is None:
+            password = Password(ByCryptPasswordEncoder(
+                CryptContext(schemes=Settings().CRYPT_CONTEXT_SCHEME,
+                             deprecated=Settings().CRYPT_CONTEXT_DEPRECATED)),
+                             cmd.password)
+            
             user = User(
                 username=cmd.username,
                 first_name=cmd.first_name,
                 last_name=cmd.last_name,
                 email=cmd.email,
-                password=Password(
-                    ByCryptPasswordEncoder(
-                        CryptContext(schemes=["bcrypt"],
-                                     deprecated="auto")),
-                    cmd.password),
+                password=password,
                 wallet=cmd.wallet)
             uow.repository.save(user)
         uow.commit()
