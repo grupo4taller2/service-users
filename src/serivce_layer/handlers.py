@@ -32,7 +32,7 @@ def create_user(cmd: UserCreateCommand, uow: AbstractUserUnitOfWork):
                 CryptContext(schemes=Settings().CRYPT_CONTEXT_SCHEME,
                              deprecated=Settings().CRYPT_CONTEXT_DEPRECATED)),
                              cmd.password)
-            
+
             user = User(
                 username=cmd.username,
                 first_name=cmd.first_name,
