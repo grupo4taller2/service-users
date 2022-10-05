@@ -42,8 +42,8 @@ def step_create_driver(context, username):
                 "preferred_longitude": -58.408061,
                 "car_name": "Toyota Corolla",
                 "car_year_of_production": 2009,
-                "color": "red",
-                "plate": "AAA 123"
+                "car_color": "red",
+                "car_plate": "AAA 123"
                 }
         )
     assert response.status_code == 201
