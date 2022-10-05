@@ -5,7 +5,7 @@ from src.conf.config import Settings
 @given(u'There are {:d} users')
 def step_add_n_users(context, n_users):
     for i in range(n_users):
-        context.client.post(
+        response = context.client.post(
             Settings().API_V1_STR + '/users',
             json={
                 "username": f'user_{i}',
@@ -16,11 +16,12 @@ def step_add_n_users(context, n_users):
                 "wallet": "wallet"
                 }
         )
+        assert response.status_code == 201
 
 
 @when(u'I create the user "{}"')
 def step_create_user(context, username):
-    context.client.post(
+    response = context.client.post(
         Settings().API_V1_STR + '/users',
         json={
             "username": f'{username}',
@@ -31,6 +32,7 @@ def step_create_user(context, username):
             "wallet": "wallet"
             }
     )
+    assert response.status_code == 201
 
 
 @then(u'The user "{}" exists in the platform')
