@@ -16,6 +16,8 @@ class RiderRepository(BaseRepository):
 
     def save(self, rider: Rider):
         rider_dto = RiderDTO.from_entity(rider)
+        # FIXME: Si no existe el user, crearlo. Rider tiene todos
+        # los datos para insertar el user y el rider.
         try:
             self.session.add(rider_dto)
             self.seen.add(rider)
@@ -26,7 +28,7 @@ class RiderRepository(BaseRepository):
         try:
             user_dto: UserDTO = self.session.query(UserDTO) \
                 .filter_by(username=username).one()
-                
+
             rider_dto: RiderDTO = self.session.query(RiderDTO) \
                 .filter_by(username=username).one()
         except NoResultFound:

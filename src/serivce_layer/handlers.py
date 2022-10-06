@@ -19,6 +19,13 @@ from src.domain.password import Password
 from src.domain.password_encoder import ByCryptPasswordEncoder, CryptContext
 
 
+def _create_password(plain_text: str):
+    return Password(ByCryptPasswordEncoder(
+                CryptContext(schemes=Settings().CRYPT_CONTEXT_SCHEME,
+                             deprecated=Settings().CRYPT_CONTEXT_DEPRECATED)),
+                    plain_text)
+
+
 def get_user(cmd: UserGetCommand, uow: AbstractUnitOfWork):
     # FIXME: THROW IF NOT EXISTS
     with uow:
@@ -32,10 +39,7 @@ def create_user(cmd: UserCreateCommand, uow: AbstractUnitOfWork):
         user = uow.user_repository.find_by_username(username=cmd.username)
         # FIXME: Throw if user exists
         if user is None:
-            password = Password(ByCryptPasswordEncoder(
-                CryptContext(schemes=Settings().CRYPT_CONTEXT_SCHEME,
-                             deprecated=Settings().CRYPT_CONTEXT_DEPRECATED)),
-                             cmd.password)
+            password = _create_password(cmd.password)
 
             user = User(
                 username=cmd.username,
@@ -52,11 +56,18 @@ def get_rider(cmd: RiderGetCommand, uow: AbstractUnitOfWork):
 
 def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
     with uow:
-        # FIXME: Fijarse que no exista
-        password = Password(ByCryptPasswordEncoder(
-                CryptContext(schemes=Settings().CRYPT_CONTEXT_SCHEME,
-                             deprecated=Settings().CRYPT_CONTEXT_DEPRECATED)),
-                            cmd.password)
+        # FIXME: Fijarse que no exista, handlear bien
+        user = uow.user_repository.find_by_username(username=cmd.username)
+        if user is None:
+            password = _create_password(cmd.password)
+
+            user = User(
+                username=cmd.username,
+                email=cmd.email,
+                password=password)
+            uow.user_repository.save(user)
+            uow.commit()
+
         location = Location(float(cmd.preferred_latitude),
                             float(cmd.preferred_longitude))
 
