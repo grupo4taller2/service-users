@@ -1,17 +1,15 @@
 from src.domain import (
     user,
-    location,
-    car
+    location
 )
 
 
-class Driver(user.User):
+class Rider(user.User):
     first_name: str
     last_name: str
     phone_number: str
     wallet: str
     location: location.Location
-    car: car.Car
 
     class Config:
         arbitrary_types_allowed = True

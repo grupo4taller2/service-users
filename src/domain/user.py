@@ -7,13 +7,9 @@ from src.domain.events import Event
 
 class User(BaseModel):
     username: str
-    first_name: str
-    last_name: str
     email: EmailStr
     password: Password
-    wallet: str
     events: Optional[List[Event]]
-    # TODO: Add created_at, updated_at, etc
 
     class Config:
         arbitrary_types_allowed = True
@@ -22,4 +18,6 @@ class User(BaseModel):
         return hash(self.username)
 
     def __eq__(self, other):
+        if other.__class__ != self.__class__:
+            return False
         return self.username == other.username
