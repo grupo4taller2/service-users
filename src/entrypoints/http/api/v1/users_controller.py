@@ -24,10 +24,7 @@ async def get_user(a_username: str):
     uow = UnitOfWork()
     user = messagebus.handle(cmd, uow)[0]
     return UserResponse(username=user.username,
-                        first_name=user.first_name,
-                        last_name=user.last_name,
-                        email=user.email,
-                        wallet=user.wallet)
+                        email=user.email)
 
 
 @router.post(
@@ -38,16 +35,10 @@ async def get_user(a_username: str):
 async def create_user(req: UserRequest):
     cmd = commands.UserCreateCommand(
         username=req.username,
-        first_name=req.first_name,
-        last_name=req.last_name,
         email=req.email,
-        password=req.password,
-        wallet=req.wallet
+        password=req.password
     )
     uow = UnitOfWork()
     user = messagebus.handle(cmd, uow)[0]
     return UserResponse(username=user.username,
-                        first_name=user.first_name,
-                        last_name=user.last_name,
-                        email=user.email,
-                        wallet=user.wallet)
+                        email=user.email)

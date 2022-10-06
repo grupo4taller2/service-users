@@ -3,8 +3,9 @@ from sqlalchemy.orm import sessionmaker
 from src.conf import config
 
 from src.adapters.repositories.user_repository import UserRepository
-from src.adapters.repositories.driver_repository import DriverRepository
+from src.adapters.repositories.rider_repository import RiderRepository
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
+
 
 DEFAULT_SESSION_FACTORY = sessionmaker(
     bind=create_engine(
@@ -21,7 +22,7 @@ class UnitOfWork(AbstractUnitOfWork):
     def __enter__(self):
         self.session = self.session_factory()
         self.user_repository = UserRepository(self.session)
-        self.driver_repository = DriverRepository(self.session)
+        self.rider_repository = RiderRepository(self.session)
         return super().__enter__()
 
     def __exit__(self, *args):
