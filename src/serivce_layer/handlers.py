@@ -56,10 +56,10 @@ def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
         password = Password(ByCryptPasswordEncoder(
                 CryptContext(schemes=Settings().CRYPT_CONTEXT_SCHEME,
                              deprecated=Settings().CRYPT_CONTEXT_DEPRECATED)),
-                             cmd.password)
+                            cmd.password)
         location = Location(float(cmd.preferred_latitude),
                             float(cmd.preferred_longitude))
-        
+
         rider = Rider(
             username=cmd.username,
             email=cmd.email,
@@ -71,8 +71,8 @@ def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
             location=location
         )
         uow.rider_repository.save(rider)
-    uow.commit()
-    return rider
+        uow.commit()
+        return rider
 
 
 def publish_created_event(event: UserCreatedEvent,

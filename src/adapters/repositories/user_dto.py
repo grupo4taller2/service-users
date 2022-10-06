@@ -3,6 +3,7 @@ from typing import Union
 
 from sqlalchemy import Column, String, DateTime
 from sqlalchemy.sql import func
+from sqlalchemy.orm import declarative_base
 
 from src.domain.user import User
 from src.domain.password import Password
@@ -10,7 +11,11 @@ from src.domain.password_encoder import NoEncoder
 import uuid
 
 
-class UserDTO:
+Base = declarative_base()
+
+
+class UserDTO(Base):
+    __tablename__ = 'users'
     id: Union[str, Column] = Column(String, primary_key=True, index=True)
     username: Union[str, Column] = Column(String, unique=True, index=True)
     email: Union[str, Column] = Column(String, unique=True, index=True)

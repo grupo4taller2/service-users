@@ -3,14 +3,22 @@ from typing import Union
 
 from sqlalchemy import Column, String, DateTime, ForeignKey, Float
 from sqlalchemy.sql import func
+from sqlalchemy.orm import declarative_base
 
 from src.domain.rider import Rider
 from src.domain.password import Password
 from src.domain.password_encoder import NoEncoder
 
+Base = declarative_base()
 
-class RiderDTO:
-    username: Union[str, Column] = Column(String, ForeignKey('users.username'))
+from src.adapters.repositories.user_dto import UserDTO
+
+
+class RiderDTO(Base):
+    __tablename__ = 'riders'
+    username: Union[str, Column] = Column(String,
+                                          ForeignKey(UserDTO.username),
+                                          primary_key=True)
     first_name: Union[str, Column] = Column(String)
     last_name: Union[str, Column] = Column(String)
     phone_number: Union[str, Column] = Column(String)

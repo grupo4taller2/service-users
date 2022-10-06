@@ -46,7 +46,10 @@ async def create_rider(req: RiderCreateRequest):
         last_name=req.last_name,
         email=req.email,
         password=req.password,
-        wallet=req.wallet
+        phone_number=req.phone_number,
+        wallet=req.wallet,
+        preferred_latitude=req.preferred_latitude,
+        preferred_longitude=req.preferred_longitude
     )
     uow = UnitOfWork()
     rider: Rider = messagebus.handle(cmd, uow)[0]
