@@ -38,7 +38,7 @@ class RiderRepository(BaseRepository):
         user = user_dto.to_entity()
         # FIXME: Crear rider a partir de un user existente?
         rider = Rider(username=user.username,
-                      email =user.email,
+                      email=user.email,
                       password=user.password,
                       events=[],
                       first_name=rider_dto.first_name,

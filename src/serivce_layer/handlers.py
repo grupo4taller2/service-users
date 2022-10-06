@@ -55,22 +55,23 @@ def get_rider(cmd: RiderGetCommand, uow: AbstractUnitOfWork):
 
 
 def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
+    password = _create_password(cmd.password)
+    location = Location(float(cmd.preferred_latitude),
+                        float(cmd.preferred_longitude))
     with uow:
         # FIXME: Fijarse que no exista, handlear bien
         user = uow.user_repository.find_by_username(username=cmd.username)
         if user is None:
-            password = _create_password(cmd.password)
 
             user = User(
                 username=cmd.username,
                 email=cmd.email,
                 password=password)
             uow.user_repository.save(user)
-            uow.commit()
-
-        location = Location(float(cmd.preferred_latitude),
-                            float(cmd.preferred_longitude))
-
+            # uow.commit()
+        rider = uow.rider_repository.find_by_username(username=cmd.username)
+        if rider is not None:
+            return rider
         rider = Rider(
             username=cmd.username,
             email=cmd.email,

@@ -26,7 +26,8 @@ PHONE_NUMBER_LEN = 64
 def upgrade() -> None:
     op.create_table(
         'riders',
-        sa.Column('username', sa.String, ForeignKey('users.username')),
+        sa.Column('username', sa.String, ForeignKey('users.username'),
+                  primary_key=True),
         sa.Column('first_name', sa.String(F_NAME_MAX_LEN), nullable=False),
         sa.Column('last_name', sa.String(L_NAME_MAX_LEN), nullable=False),
         sa.Column('phone_number', sa.String(PHONE_NUMBER_LEN), nullable=False),

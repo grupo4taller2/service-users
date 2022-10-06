@@ -9,9 +9,9 @@ from src.domain.rider import Rider
 from src.domain.password import Password
 from src.domain.password_encoder import NoEncoder
 
-Base = declarative_base()
-
 from src.adapters.repositories.user_dto import UserDTO
+
+Base = declarative_base()
 
 
 class RiderDTO(Base):

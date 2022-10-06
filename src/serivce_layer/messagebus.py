@@ -68,7 +68,7 @@ EVENT_HANDLERS = {
 COMMAND_HANDLERS = {
     commands.UserCreateCommand: handlers.create_user,
     commands.UserGetCommand: handlers.get_user,
-    
+
     commands.RiderCreateCommand: handlers.create_rider,
     commands.RiderGetCommand: handlers.get_rider,
 }  # type: Dict[Type[commands.Command], Callable]
