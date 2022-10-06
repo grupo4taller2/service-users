@@ -3,7 +3,7 @@ from src.domain.user import User
 from typing import Set
 
 
-class UserBaseRepository(metaclass=abc.ABCMeta):
+class BaseRepository(metaclass=abc.ABCMeta):
     def __init__(self):
         self.seen: Set[User] = set()
 

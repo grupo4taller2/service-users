@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 
-from src.adapters.repositories.user_unit_of_work import UserUnitOfWork
+from src.adapters.repositories.unit_of_work import UnitOfWork
 from src.domain import commands
 from src.serivce_layer import messagebus
 
@@ -21,7 +21,7 @@ async def get_user(a_username: str):
     cmd = commands.UserGetCommand(
         username=a_username
     )
-    uow = UserUnitOfWork()
+    uow = UnitOfWork()
     user = messagebus.handle(cmd, uow)[0]
     return UserResponse(username=user.username,
                         first_name=user.first_name,
@@ -44,7 +44,7 @@ async def create_user(req: UserRequest):
         password=req.password,
         wallet=req.wallet
     )
-    uow = UserUnitOfWork()
+    uow = UnitOfWork()
     user = messagebus.handle(cmd, uow)[0]
     return UserResponse(username=user.username,
                         first_name=user.first_name,

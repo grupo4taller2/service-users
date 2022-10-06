@@ -1,12 +1,12 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 
-from src.adapters.repositories.base_repository import UserBaseRepository
+from src.adapters.repositories.base_repository import BaseRepository
 from src.domain.user import User
 from src.adapters.repositories.user_dto import UserDTO
 
 
-class UserRepository(UserBaseRepository):
+class UserRepository(BaseRepository):
     def __init__(self, session):
         super().__init__()
         self.session: Session = session

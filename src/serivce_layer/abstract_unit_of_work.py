@@ -1,22 +1,25 @@
 from __future__ import annotations
 
 import abc
-from src.adapters.repositories.base_repository import UserBaseRepository
+from src.adapters.repositories.base_repository import BaseRepository
 
 
-class AbstractUserUnitOfWork(abc.ABC):
-    repository: UserBaseRepository
+class AbstractUnitOfWork(abc.ABC):
+    user_repository: BaseRepository
+    driver_repository: BaseRepository
 
-    def __enter__(self) -> AbstractUserUnitOfWork:
+    def __enter__(self) -> AbstractUnitOfWork:
         return self
 
     def __exit__(self, *args):
         self.rollback()
 
     def collect_new_events(self):
-        for user in self.repository.seen:
-            while user.events:
-                yield user.events.pop(0)
+        entities = set.union(self.user_repository.seen,
+                             self.driver_repository.seen)
+        for e in entities:
+            while e.events:
+                yield e.events.pop(0)
 
     @abc.abstractmethod
     def commit(self):
