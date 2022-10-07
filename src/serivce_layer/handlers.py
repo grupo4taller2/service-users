@@ -1,6 +1,7 @@
 from src.conf.config import Settings
 
 from src.domain.commands import (
+    DriverCreateCommand,
     RiderCreateCommand,
     RiderGetCommand,
     UserCreateCommand,
@@ -14,6 +15,8 @@ from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
 from src.domain.user import User
 from src.domain.rider import Rider
+from src.domain.driver import Driver
+from src.domain.car import Car
 from src.domain.location import Location
 from src.domain.password import Password
 from src.domain.password_encoder import ByCryptPasswordEncoder, CryptContext
@@ -85,6 +88,49 @@ def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
         uow.rider_repository.save(rider)
         uow.commit()
         return rider
+
+
+def create_driver(cmd: DriverCreateCommand, uow: AbstractUnitOfWork):
+    password = _create_password(cmd.password)
+    location = Location(float(cmd.preferred_latitude),
+                        float(cmd.preferred_longitude))
+    with uow:
+        # FIXME: Fijarse que no exista, handlear bien
+        user = uow.user_repository.find_by_username(username=cmd.username)
+        if user is None:
+
+            user = User(
+                username=cmd.username,
+                email=cmd.email,
+                password=password)
+            uow.user_repository.save(user)
+            # uow.commit()
+        driver = uow.driver_repository.find_by_username(username=cmd.username)
+        if driver is not None:
+            return driver
+
+        car = Car(
+            plate=cmd.car_plate,
+            manufacturer=cmd.car_manufacturer,
+            model=cmd.car_model,
+            year_of_production=cmd.car_year_of_production,
+            color=cmd.car_color
+        )
+
+        driver = Driver(
+            username=cmd.username,
+            email=cmd.email,
+            password=password,
+            first_name=cmd.first_name,
+            last_name=cmd.last_name,
+            phone_number=cmd.phone_number,
+            wallet=cmd.wallet,
+            location=location,
+            car=car
+        )
+        uow.driver_repository.save(driver)
+        uow.commit()
+        return driver
 
 
 def publish_created_event(event: UserCreatedEvent,

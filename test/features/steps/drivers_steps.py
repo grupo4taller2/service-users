@@ -17,7 +17,8 @@ def step_add_n_drivers(context, n_drivers):
                 "phone_number": "123456789",
                 "prefered_latitude": -34.612580,
                 "preferred_longitude": -58.408061,
-                "car_name": "Toyota Corolla",
+                "car_manufacturer": "Toyota",
+                "car_model": "Corolla",
                 "car_year_of_production": 2009,
                 "color": "red",
                 "plate": "AAA 123"

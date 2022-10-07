@@ -7,6 +7,7 @@ from src.domain.driver import Driver
 from src.domain.location import Location
 from src.adapters.repositories.user_dto import UserDTO
 from src.adapters.repositories.driver_dto import DriverDTO
+from src.adapters.repositories.car_dto import CarDTO
 
 
 class DriverRepository(BaseRepository):
@@ -14,18 +15,13 @@ class DriverRepository(BaseRepository):
         super().__init__()
         self.session: Session = session
 
-    # FIXME: IDEM ABAJO, QUE LLEGUE ACA EL
-    # CAR REPOSITORY CON LA MISMA SESSION PARA GUARDAR
-    # EL AUTO DEL TIPO SI YA EXISTE.
-    # A LO SUMO, SE VA A HACER UPDATE SI ALGO DEL AUTO
-    # CAMBIÓ (PERO NO DEBERÏA PASAR)
-    def save(self, rider: Driver):
-        driver_dto = DriverDTO.from_entity(rider)
-        # FIXME: Si no existe el user, crearlo. Rider tiene todos
-        # los datos para insertar el user y el rider.
+    def save(self, driver: Driver):
+        driver_dto = DriverDTO.from_entity(driver)
+        car_dto = CarDTO.from_entity(driver, driver.car)
         try:
             self.session.add(driver_dto)
-            self.seen.add(rider)
+            self.session.add(car_dto)
+            self.seen.add(driver)
         except Exception:
             raise
 
@@ -38,25 +34,29 @@ class DriverRepository(BaseRepository):
 
             driver_dto: DriverDTO = self.session.query(DriverDTO) \
                 .filter_by(username=username).one()
+
+            car_dto: CarDTO = self.session.query(CarDTO) \
+                .filter_by(driver_username=username).first()
         except NoResultFound:
             return None
         except Exception:
             raise
         user = user_dto.to_entity()
-        # FIXME: Crear rider a partir de un user existente?
-        rider = Rider(username=user.username,
-                      email=user.email,
-                      password=user.password,
-                      events=[],
-                      first_name=driver_dto.first_name,
-                      last_name=driver_dto.last_name,
-                      phone_number=driver_dto.phone_number,
-                      wallet=driver_dto.wallet,
-                      location=Location(driver_dto.preferred_latitude,
-                                        driver_dto.preferred_longitude)
-                      )
-        self.seen.add(rider)
-        return rider
+        # FIXME: Crear driver a partir de un user existente?
+        driver = Driver(username=user.username,
+                        email=user.email,
+                        password=user.password,
+                        events=[],
+                        first_name=driver_dto.first_name,
+                        last_name=driver_dto.last_name,
+                        phone_number=driver_dto.phone_number,
+                        wallet=driver_dto.wallet,
+                        location=Location(driver_dto.preferred_latitude,
+                                          driver_dto.preferred_longitude),
+                        car=car_dto.to_entity()
+                        )
+        self.seen.add(driver)
+        return driver
 
     def find_by_email(self, email: str) -> User:
         raise NotImplementedError

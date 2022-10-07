@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from src.adapters.repositories.driver_repository import DriverRepository
 from src.conf import config
 
 from src.adapters.repositories.user_repository import UserRepository
@@ -23,6 +24,7 @@ class UnitOfWork(AbstractUnitOfWork):
         self.session = self.session_factory()
         self.user_repository = UserRepository(self.session)
         self.rider_repository = RiderRepository(self.session)
+        self.driver_repository = DriverRepository(self.session)
         return super().__enter__()
 
     def __exit__(self, *args):
