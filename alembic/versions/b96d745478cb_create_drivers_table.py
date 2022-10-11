@@ -1,8 +1,8 @@
-"""Add drivers table
+"""Create Drivers table
 
-Revision ID: ebf71f1ca060
-Revises: 01921d9e4ca9
-Create Date: 2022-10-07 02:10:23.781194
+Revision ID: b96d745478cb
+Revises: 66bd2be8bc3d
+Create Date: 2022-10-11 21:56:11.515495
 
 """
 from alembic import op
@@ -10,16 +10,16 @@ import sqlalchemy as sa
 from sqlalchemy import ForeignKey
 from sqlalchemy.sql import func
 
+
 # revision identifiers, used by Alembic.
-revision = 'ebf71f1ca060'
-down_revision = '01921d9e4ca9'
+revision = 'b96d745478cb'
+down_revision = '66bd2be8bc3d'
 branch_labels = None
 depends_on = None
 
-F_NAME_MAX_LEN = 64
-L_NAME_MAX_LEN = 64
 WALLET_LEN = 128
 PHONE_NUMBER_LEN = 64
+PREFERRED_LOCATION_MAX_LEN = 128
 
 
 def upgrade() -> None:
@@ -27,12 +27,12 @@ def upgrade() -> None:
         'drivers',
         sa.Column('username', sa.String, ForeignKey('users.username'),
                   primary_key=True),
-        sa.Column('first_name', sa.String(F_NAME_MAX_LEN), nullable=False),
-        sa.Column('last_name', sa.String(L_NAME_MAX_LEN), nullable=False),
         sa.Column('phone_number', sa.String(PHONE_NUMBER_LEN), nullable=False),
         sa.Column('wallet', sa.String(WALLET_LEN), nullable=False),
-        sa.Column('preferred_longitude', sa.Float, nullable=False),
-        sa.Column('preferred_latitude', sa.Float, nullable=False),
+        sa.Column('preferred_location_name',
+                  sa.String(PREFERRED_LOCATION_MAX_LEN)),
+        sa.Column('preferred_location_latitude', sa.Float, nullable=False),
+        sa.Column('preferred_location_longitude', sa.Float, nullable=False),
         sa.Column('created_at', sa.DateTime, server_default=func.now(),
                   onupdate=func.current_timestamp()),
         # FIXME: Revisar cuando se haga el PUT
