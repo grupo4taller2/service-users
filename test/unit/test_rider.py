@@ -12,7 +12,7 @@ def test_rider_creation():
                   password=Password(NoEncoder(), 'secret'),
                   wallet='aaa111',
                   phone_number='123456789',
-                  location=Location(-34.544879, -58.451024)
+                  location=Location(-34.544879, -58.451024, 'El Monumental')
                   )
 
     assert rider.username == 'mateocalvo'
@@ -26,7 +26,7 @@ def test_rider_creation_with_empty_list_of_events():
                   password=Password(NoEncoder(), 'secret'),
                   wallet='aaa111',
                   phone_number='123456789',
-                  location=Location(-34.544879, -58.451024),
+                  location=Location(-34.544879, -58.451024, 'El Monumental'),
                   events=[]
                   )
 
@@ -41,7 +41,7 @@ def test_rider_equality():
                       password=Password(NoEncoder(), 'secret'),
                       wallet='aaa111',
                       phone_number='123456789',
-                      location=Location(-34.544879, -58.451024),
+                      location=Location(-34.544879, -58.451024, 'El Monumental'),
                       )
 
     rider_two = Rider(username='mateocalvo',
@@ -51,7 +51,7 @@ def test_rider_equality():
                       password=Password(NoEncoder(), 'secret'),
                       wallet='aaa111',
                       phone_number='123456789',
-                      location=Location(-34.544879, -58.451024),
+                      location=Location(-34.544879, -58.451024, 'El Monumental'),
                       events=[]
                       )
 
