@@ -7,42 +7,33 @@ class Command(BaseModel):
 
 class UserCreateCommand(Command):
     username: str
+    first_name: str
+    last_name: str
     email: EmailStr
-    password: str
 
 
 class UserGetCommand(Command):
     username: str
 
 
-class RiderCreateCommand(Command):
-    username: str
-    email: EmailStr
-    password: str
-    first_name: str
-    last_name: str
+class RiderCreateCommand(UserCreateCommand):
     phone_number: str
     wallet: str
-    preferred_latitude: float
-    preferred_longitude: float
-    preferred_location: str
+    preferred_location_name: str
+    preferred_location_latitude: float
+    preferred_location_longitude: float
 
 
 class RiderGetCommand(Command):
     username: str
 
 
-class DriverCreateCommand(Command):
-    username: str
-    email: EmailStr
-    password: str
-    first_name: str
-    last_name: str
+class DriverCreateCommand(UserCreateCommand):
     phone_number: str
     wallet: str
-    preferred_latitude: float
-    preferred_longitude: float
-    preferred_location: str
+    preferred_location_name: str
+    preferred_location_latitude: float
+    preferred_location_longitude: float
     car_manufacturer: str
     car_model: str
     car_year_of_production: int

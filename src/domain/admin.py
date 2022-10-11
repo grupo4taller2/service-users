@@ -1,16 +1,7 @@
-from src.domain import (
-    user,
-    location
-)
+from src.domain import user
 
 
-class Rider(user.User):
-    phone_number: str
-    wallet: str
-    location: location.Location
-
-    class Config:
-        arbitrary_types_allowed = True
+class Admin(user.User):
 
     def __hash__(self):
         return hash(self.username)
