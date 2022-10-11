@@ -14,6 +14,7 @@ class RiderCreateRequest(BaseModel):
     wallet: str = Field(example="cryptowallet")
     preferred_latitude: float = Field(example=-34.612580)
     preferred_longitude: float = Field(example=-58.408061)
+    preferred_location: str = Field(example='Av. Paseo Colón 850')
 
 
 class RiderResponse(BaseModel):
@@ -25,3 +26,4 @@ class RiderResponse(BaseModel):
     wallet: str = Field(example="cryptowallet")
     preferred_latitude: float = Field(example=-34.612580)
     preferred_longitude: float = Field(example=-58.408061)
+    preferred_location: str = Field(example='Av. Paseo Colón 850')

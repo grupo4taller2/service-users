@@ -25,6 +25,7 @@ class RiderCreateCommand(Command):
     wallet: str
     preferred_latitude: float
     preferred_longitude: float
+    preferred_location: str
 
 
 class RiderGetCommand(Command):
@@ -41,6 +42,7 @@ class DriverCreateCommand(Command):
     wallet: str
     preferred_latitude: float
     preferred_longitude: float
+    preferred_location: str
     car_manufacturer: str
     car_model: str
     car_year_of_production: int

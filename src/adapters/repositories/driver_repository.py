@@ -52,7 +52,8 @@ class DriverRepository(BaseRepository):
                         phone_number=driver_dto.phone_number,
                         wallet=driver_dto.wallet,
                         location=Location(driver_dto.preferred_latitude,
-                                          driver_dto.preferred_longitude),
+                                          driver_dto.preferred_longitude,
+                                          driver_dto.preferred_location),
                         car=car_dto.to_entity()
                         )
         self.seen.add(driver)

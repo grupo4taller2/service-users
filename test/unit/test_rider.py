@@ -41,7 +41,8 @@ def test_rider_equality():
                       password=Password(NoEncoder(), 'secret'),
                       wallet='aaa111',
                       phone_number='123456789',
-                      location=Location(-34.544879, -58.451024, 'El Monumental'),
+                      location=Location(-34.544879, -58.451024,
+                                        'El Monumental'),
                       )
 
     rider_two = Rider(username='mateocalvo',
@@ -51,7 +52,8 @@ def test_rider_equality():
                       password=Password(NoEncoder(), 'secret'),
                       wallet='aaa111',
                       phone_number='123456789',
-                      location=Location(-34.544879, -58.451024, 'El Monumental'),
+                      location=Location(-34.544879, -58.451024,
+                                        'El Monumental'),
                       events=[]
                       )
 

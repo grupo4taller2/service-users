@@ -60,7 +60,8 @@ def get_rider(cmd: RiderGetCommand, uow: AbstractUnitOfWork):
 def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
     password = _create_password(cmd.password)
     location = Location(float(cmd.preferred_latitude),
-                        float(cmd.preferred_longitude))
+                        float(cmd.preferred_longitude),
+                        cmd.preferred_location)
     with uow:
         # FIXME: Fijarse que no exista, handlear bien
         user = uow.user_repository.find_by_username(username=cmd.username)
@@ -93,7 +94,8 @@ def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
 def create_driver(cmd: DriverCreateCommand, uow: AbstractUnitOfWork):
     password = _create_password(cmd.password)
     location = Location(float(cmd.preferred_latitude),
-                        float(cmd.preferred_longitude))
+                        float(cmd.preferred_longitude),
+                        cmd.preferred_location)
     with uow:
         # FIXME: Fijarse que no exista, handlear bien
         user = uow.user_repository.find_by_username(username=cmd.username)

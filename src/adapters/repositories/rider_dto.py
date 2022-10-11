@@ -25,6 +25,7 @@ class RiderDTO(Base):
     wallet: Union[str, Column] = Column(String)
     preferred_longitude: Union[float, Column] = Column(Float)
     preferred_latitude: Union[float, Column] = Column(Float)
+    preferred_location: Union[str, Column] = Column(String)
     created_at: Union[DateTime, Column] = Column(
         DateTime(timezone=True), server_default=func.now()
     )
@@ -42,6 +43,7 @@ class RiderDTO(Base):
             wallet=rider.wallet,
             preferred_longitude=rider.location.longitude,
             preferred_latitude=rider.location.latitude,
+            preferred_location=rider.location.string_repr
         )
 
     # FIXME: Se hace en el repository?

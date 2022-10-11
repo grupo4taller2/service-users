@@ -46,7 +46,8 @@ class RiderRepository(BaseRepository):
                       phone_number=rider_dto.phone_number,
                       wallet=rider_dto.wallet,
                       location=Location(rider_dto.preferred_latitude,
-                                        rider_dto.preferred_longitude)
+                                        rider_dto.preferred_longitue,
+                                        rider_dto.preferred_location)
                       )
         self.seen.add(rider)
         return rider

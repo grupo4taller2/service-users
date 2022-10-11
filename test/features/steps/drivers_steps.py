@@ -41,6 +41,7 @@ def step_create_driver(context, username):
                 "phone_number": "123456789",
                 "preferred_latitude": -34.612580,
                 "preferred_longitude": -58.408061,
+                "preferred_location": "Fiuba",
                 "car_name": "Toyota Corolla",
                 "car_year_of_production": 2009,
                 "car_color": "red",
