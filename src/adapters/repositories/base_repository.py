@@ -8,7 +8,6 @@ class BaseRepository(metaclass=abc.ABCMeta):
         self.seen: Set[User] = set()
 
     @abc.abstractmethod
-    # TODO: Union[User, Driver, Rider] ?
     def save(self, user: User):
         raise NotImplementedError
 

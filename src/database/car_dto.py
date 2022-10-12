@@ -33,3 +33,10 @@ class CarDTO(TimeTrackableDTO):
             year_of_production=car.year_of_production,
             color=car.color
         )
+
+    def to_entity(self) -> Car:
+        return Car(self.plate,
+                   self.manufacturer,
+                   self.model,
+                   self.year_of_production,
+                   self.color)

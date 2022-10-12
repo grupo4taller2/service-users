@@ -18,15 +18,6 @@ from src.domain.rider import Rider
 from src.domain.driver import Driver
 from src.domain.car import Car
 from src.domain.location import Location
-from src.domain.password import Password
-from src.domain.password_encoder import ByCryptPasswordEncoder, CryptContext
-
-
-def _create_password(plain_text: str):
-    return Password(ByCryptPasswordEncoder(
-                CryptContext(schemes=Settings().CRYPT_CONTEXT_SCHEME,
-                             deprecated=Settings().CRYPT_CONTEXT_DEPRECATED)),
-                    plain_text)
 
 
 def get_user(cmd: UserGetCommand, uow: AbstractUnitOfWork):

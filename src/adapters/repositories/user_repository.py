@@ -1,9 +1,10 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
+from serivce_layer.exceptions import UserNotFoundException
 
 from src.adapters.repositories.base_repository import BaseRepository
 from src.domain.user import User
-from src.adapters.repositories.user_dto import UserDTO
+from src.database.user_dto import UserDTO
 
 
 class UserRepository(BaseRepository):
@@ -24,7 +25,7 @@ class UserRepository(BaseRepository):
             user_dto = self.session.query(UserDTO) \
                 .filter_by(username=username).one()
         except NoResultFound:
-            return None
+            raise UserNotFoundException(username)
         except Exception:
             raise
         user = user_dto.to_entity()
@@ -36,7 +37,7 @@ class UserRepository(BaseRepository):
             user_dto = self.session.query(UserDTO) \
                 .filter_by(email=email).one()
         except NoResultFound:
-            return None
+            raise UserNotFoundException(email)
         except Exception:
             raise
         user = user_dto.to_entity()
@@ -49,7 +50,7 @@ class UserRepository(BaseRepository):
                 .filter((UserDTO.email == email)
                         | (UserDTO.username == username)).one()
         except NoResultFound:
-            return None
+            raise UserNotFoundException(username)
         except Exception:
             raise
         user = user_dto.to_entity()
