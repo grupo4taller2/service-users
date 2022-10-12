@@ -1,7 +1,7 @@
 from psycopg2 import IntegrityError
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
-from serivce_layer.exceptions import (
+from src.serivce_layer.exceptions import (
     CarNotFoundException,
     DriverNotFoundException,
     UserNotFoundException

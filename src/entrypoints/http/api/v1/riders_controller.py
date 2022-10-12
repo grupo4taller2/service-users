@@ -30,9 +30,9 @@ async def get_rider(a_username: str):
                          last_name=rider.last_name,
                          phone_number=rider.email,
                          wallet=rider.wallet,
-                         preferred_latitude=rider.location.latitude,
-                         preferred_longitude=rider.location.longitude,
-                         preferred_location=rider.location.string_repr)
+                         preferred_location_latitude=rider.location.latitude,
+                         preferred_location_longitude=rider.location.longitude,
+                         preferred_location_name=rider.location.name)
 
 
 @router.post(
@@ -46,12 +46,11 @@ async def create_rider(req: RiderCreateRequest):
         first_name=req.first_name,
         last_name=req.last_name,
         email=req.email,
-        password=req.password,
         phone_number=req.phone_number,
         wallet=req.wallet,
-        preferred_latitude=req.preferred_latitude,
-        preferred_longitude=req.preferred_longitude,
-        preferred_location=req.preferred_location
+        preferred_location_latitude=req.preferred_location_latitude,
+        preferred_location_longitude=req.preferred_location_longitude,
+        preferred_location_name=req.preferred_location_name
     )
     uow = UnitOfWork()
     rider: Rider = messagebus.handle(cmd, uow)[0]
@@ -61,6 +60,6 @@ async def create_rider(req: RiderCreateRequest):
                          last_name=rider.last_name,
                          phone_number=rider.email,
                          wallet=rider.wallet,
-                         preferred_latitude=rider.location.latitude,
-                         preferred_longitude=rider.location.longitude,
-                         preferred_location=rider.location.string_repr)
+                         preferred_location_latitude=rider.location.latitude,
+                         preferred_location_longitude=rider.location.longitude,
+                         preferred_location_name=rider.location.name)
