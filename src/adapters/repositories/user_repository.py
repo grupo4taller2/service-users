@@ -16,6 +16,7 @@ class UserRepository(BaseRepository):
         user_dto = UserDTO.from_entity(user)
         try:
             self.session.add(user_dto)
+            self.session.flush()
             self.seen.add(user)
         except Exception:
             raise
