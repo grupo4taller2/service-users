@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
-from serivce_layer.exceptions import UserNotFoundException
+from src.serivce_layer.exceptions import UserNotFoundException
 
 from src.adapters.repositories.base_repository import BaseRepository
 from src.domain.user import User

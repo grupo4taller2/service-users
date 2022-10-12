@@ -2,7 +2,7 @@ from psycopg2 import IntegrityError
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 from domain.user import User
-from serivce_layer.exceptions import (
+from src.serivce_layer.exceptions import (
     UserNotFoundException,
     AdminNotFoundException
 )

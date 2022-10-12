@@ -1,16 +1,19 @@
 from __future__ import annotations
 from typing import Union
 
-from sqlalchemy import Column, String, ForeignKey, Integer
+from sqlalchemy import Column, String, ForeignKey, Integer, DateTime
+from sqlalchemy.sql import func
 
-from src.database.time_trackable_dto import TimeTrackableDTO
 from src.database.driver_dto import DriverDTO
 
 from src.domain.driver import Driver
 from src.domain.car import Car
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
 
 
-class CarDTO(TimeTrackableDTO):
+class CarDTO(Base):
     __tablename__ = 'cars'
     driver_username: Union[str, Column] = \
         Column(String,
@@ -21,6 +24,12 @@ class CarDTO(TimeTrackableDTO):
     model: Union[str, Column] = Column(String)
     year_of_production: Union[Integer, Column] = Column(Integer)
     color: Union[str, Column] = Column(String)
+    created_at: Union[DateTime, Column] = Column(
+        DateTime(timezone=True), server_default=func.now()
+    )
+    updated_at: Union[DateTime, Column] = Column(
+        DateTime(timezone=True), onupdate=func.now()
+    )
 
     # TODO: está muy feo recibir el driver?
     @staticmethod

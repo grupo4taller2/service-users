@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError, NoResultFound
-from serivce_layer.exceptions import (
+from src.serivce_layer.exceptions import (
     RiderNotFoundException,
     UserNotFoundException
 )
