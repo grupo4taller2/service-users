@@ -67,7 +67,7 @@ def _driver_from_cmd(cmd: Command) -> Driver:
         username=cmd.username,
         first_name=cmd.first_name,
         last_name=cmd.last_name,
-        email=cmd.last_name,
+        email=cmd.email,
         blocked=False,
         events=[],
         phone_number=cmd.phone_number,
