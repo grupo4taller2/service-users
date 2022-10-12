@@ -28,7 +28,7 @@ async def get_rider(a_username: str):
                          email=rider.email,
                          first_name=rider.first_name,
                          last_name=rider.last_name,
-                         phone_number=rider.email,
+                         phone_number=rider.phone_number,
                          wallet=rider.wallet,
                          preferred_location_latitude=rider.location.latitude,
                          preferred_location_longitude=rider.location.longitude,

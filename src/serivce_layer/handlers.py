@@ -79,7 +79,9 @@ def _driver_from_cmd(cmd: Command) -> Driver:
 
 def get_user(cmd: UserGetCommand, uow: AbstractUnitOfWork):
     with uow:
-        user = uow.user_repository.find_by_username(username=cmd.username)
+        user = uow.user_repository.find_by_email_or_username(
+            username=cmd.username,
+            email=cmd.username)
         uow.commit()
         return user
 
@@ -93,7 +95,10 @@ def create_user(cmd: UserCreateCommand, uow: AbstractUnitOfWork):
 
 
 def get_rider(cmd: RiderGetCommand, uow: AbstractUnitOfWork):
-    raise Exception
+    with uow:
+        rider = uow.rider_repository.find_by_username(cmd.username)
+        uow.commit()
+        return rider
 
 
 def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
