@@ -1,6 +1,5 @@
-from src.conf.config import Settings
-
 from src.domain.commands import (
+    Command,
     DriverCreateCommand,
     RiderCreateCommand,
     RiderGetCommand,
@@ -20,8 +19,65 @@ from src.domain.car import Car
 from src.domain.location import Location
 
 
+def _user_from_cmd(cmd: Command) -> User:
+    return User(
+        username=cmd.username,
+        first_name=cmd.first_name,
+        last_name=cmd.last_name,
+        email=cmd.email,
+        blocked=False,
+        events=[]
+    )
+
+
+def _location_from_cmd(cmd: Command) -> Location:
+    return Location(
+        cmd.preferred_location_latitude,
+        cmd.preferred_location_longitude,
+        cmd.preferred_location_name
+    )
+
+
+def _car_from_cmd(cmd: Command) -> Car:
+    return Car(
+        plate=cmd.car_plate,
+        manufacturer=cmd.car_manufacturer,
+        model=cmd.car_model,
+        year_of_production=cmd.car_year_of_production,
+        color=cmd.car_color
+        )
+
+
+def _rider_from_cmd(cmd: Command) -> Rider:
+    return Rider(
+        username=cmd.username,
+        first_name=cmd.first_name,
+        last_name=cmd.last_name,
+        email=cmd.email,
+        blocked=False,
+        events=[],
+        phone_number=cmd.phone_number,
+        wallet=cmd.wallet,
+        location=_location_from_cmd(cmd)
+    )
+
+
+def _driver_from_cmd(cmd: Command) -> Driver:
+    return Driver(
+        username=cmd.username,
+        first_name=cmd.first_name,
+        last_name=cmd.last_name,
+        email=cmd.last_name,
+        blocked=False,
+        events=[],
+        phone_number=cmd.phone_number,
+        wallet=cmd.wallet,
+        location=_location_from_cmd(cmd),
+        car=_car_from_cmd(cmd)
+    )
+
+
 def get_user(cmd: UserGetCommand, uow: AbstractUnitOfWork):
-    # FIXME: THROW IF NOT EXISTS
     with uow:
         user = uow.user_repository.find_by_username(username=cmd.username)
         uow.commit()
@@ -30,16 +86,8 @@ def get_user(cmd: UserGetCommand, uow: AbstractUnitOfWork):
 
 def create_user(cmd: UserCreateCommand, uow: AbstractUnitOfWork):
     with uow:
-        user = uow.user_repository.find_by_username(username=cmd.username)
-        # FIXME: Throw if user exists
-        if user is None:
-            password = _create_password(cmd.password)
-
-            user = User(
-                username=cmd.username,
-                email=cmd.email,
-                password=password)
-            uow.user_repository.save(user)
+        user = _user_from_cmd(cmd)
+        uow.user_repository.save(user)
         uow.commit()
         return user
 
@@ -49,78 +97,21 @@ def get_rider(cmd: RiderGetCommand, uow: AbstractUnitOfWork):
 
 
 def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
-    password = _create_password(cmd.password)
-    location = Location(float(cmd.preferred_latitude),
-                        float(cmd.preferred_longitude),
-                        cmd.preferred_location)
     with uow:
-        # FIXME: Fijarse que no exista, handlear bien
-        user = uow.user_repository.find_by_username(username=cmd.username)
-        if user is None:
-
-            user = User(
-                username=cmd.username,
-                email=cmd.email,
-                password=password)
-            uow.user_repository.save(user)
-            # uow.commit()
-        rider = uow.rider_repository.find_by_username(username=cmd.username)
-        if rider is not None:
-            return rider
-        rider = Rider(
-            username=cmd.username,
-            email=cmd.email,
-            password=password,
-            first_name=cmd.first_name,
-            last_name=cmd.last_name,
-            phone_number=cmd.phone_number,
-            wallet=cmd.wallet,
-            location=location
-        )
+        user = _user_from_cmd(cmd)
+        uow.user_repository.save(user)
+        rider = _rider_from_cmd(cmd)
         uow.rider_repository.save(rider)
         uow.commit()
         return rider
 
 
 def create_driver(cmd: DriverCreateCommand, uow: AbstractUnitOfWork):
-    password = _create_password(cmd.password)
-    location = Location(float(cmd.preferred_latitude),
-                        float(cmd.preferred_longitude),
-                        cmd.preferred_location)
     with uow:
         # FIXME: Fijarse que no exista, handlear bien
-        user = uow.user_repository.find_by_username(username=cmd.username)
-        if user is None:
-
-            user = User(
-                username=cmd.username,
-                email=cmd.email,
-                password=password)
-            uow.user_repository.save(user)
-            # uow.commit()
-        driver = uow.driver_repository.find_by_username(username=cmd.username)
-        if driver is not None:
-            return driver
-
-        car = Car(
-            plate=cmd.car_plate,
-            manufacturer=cmd.car_manufacturer,
-            model=cmd.car_model,
-            year_of_production=cmd.car_year_of_production,
-            color=cmd.car_color
-        )
-
-        driver = Driver(
-            username=cmd.username,
-            email=cmd.email,
-            password=password,
-            first_name=cmd.first_name,
-            last_name=cmd.last_name,
-            phone_number=cmd.phone_number,
-            wallet=cmd.wallet,
-            location=location,
-            car=car
-        )
+        user = _user_from_cmd(cmd)
+        uow.user_repository.save(user)
+        driver = _driver_from_cmd(cmd)
         uow.driver_repository.save(driver)
         uow.commit()
         return driver
