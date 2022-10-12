@@ -1,5 +1,3 @@
-from ast import Add
-from ssl import ALERT_DESCRIPTION_DECOMPRESSION_FAILURE
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from src.adapters.repositories.driver_repository import DriverRepository
