@@ -1,13 +1,14 @@
 from __future__ import annotations
 from typing import Union
 
-from sqlalchemy import Column, String, DateTime, ForeignKey, Integer
+from sqlalchemy import Column, String, ForeignKey, Integer, DateTime
 from sqlalchemy.sql import func
-from sqlalchemy.orm import declarative_base
 
-from src.domain.car import Car
+from src.database.driver_dto import DriverDTO
+
 from src.domain.driver import Driver
-from src.adapters.repositories.driver_dto import DriverDTO
+from src.domain.car import Car
+from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
 
@@ -43,10 +44,8 @@ class CarDTO(Base):
         )
 
     def to_entity(self) -> Car:
-        return Car(
-            plate=self.plate,
-            manufacturer=self.manufacturer,
-            model=self.model,
-            year_of_production=self.year_of_production,
-            color=self.color
-        )
+        return Car(self.plate,
+                   self.manufacturer,
+                   self.model,
+                   self.year_of_production,
+                   self.color)

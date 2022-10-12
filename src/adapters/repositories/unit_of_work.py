@@ -4,6 +4,7 @@ from src.adapters.repositories.driver_repository import DriverRepository
 from src.conf import config
 
 from src.adapters.repositories.user_repository import UserRepository
+from src.adapters.repositories.admin_repository import AdminRepository
 from src.adapters.repositories.rider_repository import RiderRepository
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
@@ -25,6 +26,7 @@ class UnitOfWork(AbstractUnitOfWork):
         self.user_repository = UserRepository(self.session)
         self.rider_repository = RiderRepository(self.session)
         self.driver_repository = DriverRepository(self.session)
+        self.admin_repository = AdminRepository(self.session)
         return super().__enter__()
 
     def __exit__(self, *args):

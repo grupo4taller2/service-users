@@ -3,18 +3,15 @@ from pydantic.main import BaseModel
 
 
 # TODO: Refactor name
-class UserRequest(BaseModel):
+class UserCreateRequest(BaseModel):
     username: str = Field(example="cool_username")
-    # first_name: str = Field(example="fname")
-    # last_name: str = Field(example="lname")
+    first_name: str = Field(example="f_name")
+    last_name: str = Field(example="l_name")
     email: EmailStr = Field(example="user@domain.com")
-    password: str = Field(example="V3ry_S3curE")
-    # wallet: str = Field(example="cryptowallet")
 
 
 class UserResponse(BaseModel):
     username: str = Field(example="cool_username")
-    # first_name: str = Field(example="fname")
-    # last_name: str = Field(example="lname")
+    first_name: str = Field(example="f_name")
+    last_name: str = Field(example="l_name")
     email: EmailStr = Field(example="user@domain.com")
-    # wallet: str = Field(example="cryptowallet")

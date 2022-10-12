@@ -6,8 +6,6 @@ from src.domain import (
 
 
 class Driver(user.User):
-    first_name: str
-    last_name: str
     phone_number: str
     wallet: str
     location: location.Location

@@ -1,12 +1,15 @@
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.exc import IntegrityError, NoResultFound
+from src.serivce_layer.exceptions import (
+    RiderNotFoundException,
+    UserNotFoundException
+)
 
 from src.adapters.repositories.base_repository import BaseRepository
-from src.domain.user import User
 from src.domain.rider import Rider
 from src.domain.location import Location
-from src.adapters.repositories.user_dto import UserDTO
-from src.adapters.repositories.rider_dto import RiderDTO
+from src.database.user_dto import UserDTO
+from src.database.rider_dto import RiderDTO
 
 
 class RiderRepository(BaseRepository):
@@ -16,11 +19,14 @@ class RiderRepository(BaseRepository):
 
     def save(self, rider: Rider):
         rider_dto = RiderDTO.from_entity(rider)
-        # FIXME: Si no existe el user, crearlo. Rider tiene todos
-        # los datos para insertar el user y el rider.
         try:
             self.session.add(rider_dto)
             self.seen.add(rider)
+        except IntegrityError:
+            user_dto = UserDTO.from_entity(rider)
+            self.session.add(user_dto)
+            self.session.flush()
+            self.session.add(rider_dto)
         except Exception:
             raise
 
@@ -28,32 +34,35 @@ class RiderRepository(BaseRepository):
         try:
             user_dto: UserDTO = self.session.query(UserDTO) \
                 .filter_by(username=username).one()
+        except NoResultFound:
+            raise UserNotFoundException(f'User {username} not found')
 
+        try:
             rider_dto: RiderDTO = self.session.query(RiderDTO) \
                 .filter_by(username=username).one()
         except NoResultFound:
-            return None
-        except Exception:
-            raise
-        user = user_dto.to_entity()
-        # FIXME: Crear rider a partir de un user existente?
-        rider = Rider(username=user.username,
-                      email=user.email,
-                      password=user.password,
+            raise RiderNotFoundException(f'Rider {username} not found')
+
+        location: Location = Location(rider_dto.preferred_location_latitude,
+                                      rider_dto.preferred_location_longitude,
+                                      rider_dto.preferred_location_name)
+
+        rider = Rider(username=user_dto.username,
+                      first_name=user_dto.first_name,
+                      last_name=user_dto.last_name,
+                      email=user_dto.email,
+                      blocked=user_dto.blocked,
                       events=[],
-                      first_name=rider_dto.first_name,
-                      last_name=rider_dto.last_name,
                       phone_number=rider_dto.phone_number,
                       wallet=rider_dto.wallet,
-                      location=Location(rider_dto.preferred_latitude,
-                                        rider_dto.preferred_longitue,
-                                        rider_dto.preferred_location)
+                      location=location
                       )
+
         self.seen.add(rider)
         return rider
 
-    def find_by_email(self, email: str) -> User:
+    def find_by_email(self, email: str) -> Rider:
         raise NotImplementedError
 
-    def find_by_email_or_username(self, email: str, username: str) -> User:
+    def find_by_email_or_username(self, email: str, username: str) -> Rider:
         raise NotImplementedError

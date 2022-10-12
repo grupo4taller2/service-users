@@ -1,13 +1,19 @@
+from psycopg2 import IntegrityError
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
+from src.serivce_layer.exceptions import (
+    CarNotFoundException,
+    DriverNotFoundException,
+    UserNotFoundException
+)
 
 from src.adapters.repositories.base_repository import BaseRepository
 from src.domain.user import User
 from src.domain.driver import Driver
 from src.domain.location import Location
-from src.adapters.repositories.user_dto import UserDTO
-from src.adapters.repositories.driver_dto import DriverDTO
-from src.adapters.repositories.car_dto import CarDTO
+from src.database.user_dto import UserDTO
+from src.database.driver_dto import DriverDTO
+from src.database.car_dto import CarDTO
 
 
 class DriverRepository(BaseRepository):
@@ -20,42 +26,54 @@ class DriverRepository(BaseRepository):
         car_dto = CarDTO.from_entity(driver, driver.car)
         try:
             self.session.add(driver_dto)
+            self.session.flush()
             self.session.add(car_dto)
-            self.seen.add(driver)
+        except IntegrityError:
+            user_dto = UserDTO.from_entity(driver)
+            self.session.add(user_dto)
+            self.session.flush()
+            self.session.add(driver_dto)
+            self.session.flush()
+            self.session.add(car_dto)
         except Exception:
             raise
 
-    # FIXME: CarRepository tendría que llegar acá con
-    # LA MISMA SESSION para que todo sea atómico
     def find_by_username(self, username: str) -> Driver:
         try:
             user_dto: UserDTO = self.session.query(UserDTO) \
                 .filter_by(username=username).one()
+        except NoResultFound:
+            raise UserNotFoundException(username)
 
+        try:
             driver_dto: DriverDTO = self.session.query(DriverDTO) \
                 .filter_by(username=username).one()
 
+        except NoResultFound:
+            raise DriverNotFoundException(username)
+
+        try:
             car_dto: CarDTO = self.session.query(CarDTO) \
                 .filter_by(driver_username=username).first()
         except NoResultFound:
-            return None
+            raise CarNotFoundException(f'No car for driver{username}')
         except Exception:
             raise
-        user = user_dto.to_entity()
-        # FIXME: Crear driver a partir de un user existente?
-        driver = Driver(username=user.username,
-                        email=user.email,
-                        password=user.password,
+
+        location = Location(driver_dto.preferred_location_latitude,
+                            driver_dto.preferred_location_longitude,
+                            driver_dto.preferred_location_name)
+
+        driver = Driver(username=user_dto.username,
+                        first_name=user_dto.first_name,
+                        last_name=user_dto.last_name,
+                        email=user_dto.email,
+                        blocked=user_dto.blocked,
                         events=[],
-                        first_name=driver_dto.first_name,
-                        last_name=driver_dto.last_name,
                         phone_number=driver_dto.phone_number,
                         wallet=driver_dto.wallet,
-                        location=Location(driver_dto.preferred_latitude,
-                                          driver_dto.preferred_longitude,
-                                          driver_dto.preferred_location),
-                        car=car_dto.to_entity()
-                        )
+                        location=location,
+                        car=car_dto.to_entity())
         self.seen.add(driver)
         return driver
 

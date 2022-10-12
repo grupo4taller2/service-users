@@ -1,14 +1,15 @@
 from typing import List, Optional
 from pydantic import BaseModel, EmailStr
 
-from src.domain.password import Password
 from src.domain.events import Event
 
 
 class User(BaseModel):
     username: str
+    first_name: str
+    last_name: str
     email: EmailStr
-    password: Password
+    blocked: bool
     events: Optional[List[Event]]
 
     class Config:

@@ -1,8 +1,8 @@
-"""Add cars table
+"""Create Cars table
 
-Revision ID: 0e5de04679eb
-Revises: ebf71f1ca060
-Create Date: 2022-10-07 02:13:06.685075
+Revision ID: df80ed2c973f
+Revises: b96d745478cb
+Create Date: 2022-10-11 22:16:33.182106
 
 """
 from alembic import op
@@ -11,10 +11,11 @@ from sqlalchemy.sql import func
 
 
 # revision identifiers, used by Alembic.
-revision = '0e5de04679eb'
-down_revision = 'ebf71f1ca060'
+revision = 'df80ed2c973f'
+down_revision = 'b96d745478cb'
 branch_labels = None
 depends_on = None
+
 
 CAR_PLATE_LEN = 16
 CAR_MANUFACTURER_NAME_LEN = 32
