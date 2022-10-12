@@ -1,8 +1,6 @@
 from src.domain.driver import Driver
 from src.domain.car import Car
 from src.domain.location import Location
-from src.domain.password import Password
-from src.domain.password_encoder import NoEncoder
 
 
 def test_user_creation():
@@ -10,8 +8,8 @@ def test_user_creation():
                     first_name='Mateo',
                     last_name='Calvo',
                     email='macalvo@fi.uba.ar',
-                    password=Password(NoEncoder(), 'secret'),
                     wallet='aaa111',
+                    blocked=False,
                     phone_number='123456789',
                     location=Location(-34.544879, -58.451024,
                                       'El Monumental'),
@@ -30,8 +28,8 @@ def test_driver_creation_with_empty_list_of_events():
                     first_name='Mateo',
                     last_name='Calvo',
                     email='macalvo@fi.uba.ar',
-                    password=Password(NoEncoder(), 'secret'),
                     wallet='aaa111',
+                    blocked=False,
                     phone_number='123456789',
                     location=Location(-34.544879, -58.451024,
                                       'El Monumental'),
@@ -51,8 +49,8 @@ def test_driver_equality_by_username():
                         first_name='Mateo',
                         last_name='Calvo',
                         email='macalvo@fi.uba.ar',
-                        password=Password(NoEncoder(), 'secret'),
                         wallet='aaa111',
+                        blocked=False,
                         phone_number='123456789',
                         location=Location(-34.544879, -58.451024,
                                           'El Monumental'),
@@ -68,8 +66,8 @@ def test_driver_equality_by_username():
                         first_name='Mateo Ivan',
                         last_name='Calvo Bissio',
                         email='macalvo@fi.uba.ar',
-                        password=Password(NoEncoder(), 'secret'),
                         wallet='aaa111',
+                        blocked=False,
                         phone_number='98764321',
                         location=Location(-34.544879, -58.451024,
                                           'El Monumental'),
