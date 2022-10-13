@@ -23,6 +23,10 @@ class BaseRepository(metaclass=abc.ABCMeta):
     def find_by_email_or_username(self, email: str, username: str) -> User:
         raise NotImplementedError
 
+    @abc.abstractclassmethod
+    def update(self, user: User) -> User:
+        raise NotImplementedError
+
     # @abc.abstractmethod
     # def all(self, q: Optional[str], offset: int, limit: int) -> List[User]:
     #    raise NotImplementedError

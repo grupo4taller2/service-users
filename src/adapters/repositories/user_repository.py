@@ -57,3 +57,6 @@ class UserRepository(BaseRepository):
         user = user_dto.to_entity()
         self.seen.add(user)
         return user
+
+    def update(self, user: User) -> User:
+        raise NotImplementedError

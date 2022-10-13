@@ -4,6 +4,7 @@ from src.domain.commands import (
     DriverGetCommand,
     RiderCreateCommand,
     RiderGetCommand,
+    RiderUpdateCommand,
     UserCreateCommand,
     UserGetCommand
 )
@@ -97,7 +98,9 @@ def create_user(cmd: UserCreateCommand, uow: AbstractUnitOfWork):
 
 def get_rider(cmd: RiderGetCommand, uow: AbstractUnitOfWork):
     with uow:
-        rider = uow.rider_repository.find_by_username(cmd.username)
+        rider = uow.rider_repository.find_by_email_or_username(
+            cmd.email,
+            cmd.username)
         uow.commit()
         return rider
 
@@ -110,6 +113,27 @@ def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
         uow.rider_repository.save(rider)
         uow.commit()
         return rider
+
+
+def update_rider(cmd: RiderUpdateCommand, uow: AbstractUnitOfWork):
+    with uow:
+        rider: Rider = uow.rider_repository.find_by_email(cmd.email)
+        if cmd.first_name:
+            rider.first_name = cmd.first_name
+        if cmd.last_name:
+            rider.last_name = cmd.last_name
+        if cmd.phone_number:
+            rider.phone_number = cmd.phone_number
+        if cmd.wallet:
+            rider.wallet = cmd.wallet
+        loc_name = cmd.preferred_location_name
+        loc_lat = cmd.preferred_location_latitude
+        loc_long = cmd.preferred_location_longitude
+        if loc_name and loc_lat and loc_long:
+            rider.location = Location(loc_lat, loc_long, loc_name)
+        updated_rider = uow.rider_repository.update(rider)
+        uow.commit()
+        return updated_rider
 
 
 def create_driver(cmd: DriverCreateCommand, uow: AbstractUnitOfWork):

@@ -82,3 +82,6 @@ class DriverRepository(BaseRepository):
 
     def find_by_email_or_username(self, email: str, username: str) -> User:
         raise NotImplementedError
+
+    def update(self, driver: Driver) -> Driver:
+        raise NotImplementedError

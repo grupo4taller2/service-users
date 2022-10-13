@@ -69,5 +69,6 @@ COMMAND_HANDLERS = {
     commands.RiderGetCommand: handlers.get_rider,
 
     commands.DriverCreateCommand: handlers.create_driver,
-    commands.DriverGetCommand: handlers.get_driver
+    commands.DriverGetCommand: handlers.get_driver,
+    commands.RiderUpdateCommand: handlers.update_rider
 }  # type: Dict[Type[commands.Command], Callable]

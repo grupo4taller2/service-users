@@ -1,6 +1,7 @@
 from behave import given, when, then
 from src.conf.config import Settings
 
+
 @given(u'I choose "{username}" for username')
 def step_choose_username(context, username):
     context.vars["chosen_rider"].username = username
@@ -67,17 +68,21 @@ def step_register_as_rider_with_chosen_args(context):
     assert response.status_code == 201
 
 
-@when(u'I change my first name to "{name}"')
-def step_change_rider_first_name(context, name):
+@when(u'I change the first name of rider with email "{email}" to "{new_name}"')
+def step_change_rider_first_name(context, email, new_name):
     response = context.client.patch(
-        Settings().API_V1_STR + f'/riders/{name}/status',
+        Settings().API_V1_STR + f'/riders/{email}/status',
         json={
-            "email": 
+            "first_name": new_name
         }
     )
-    assert response.status_code == 201
+    assert response.status_code == 202
 
 
-@then(u'My first name is updated to "mateo"')
-def step_check_rider_first_name_changed(context):
-    pass
+@then(u'The first name of rider with email "{email}" is updated to "{name}"')
+def step_check_rider_first_name_changed(context, email, name):
+    response = context.client.get(
+        f'{Settings().API_V1_STR}/users/{email}'
+    )
+    assert response.status_code == 200
+    assert response.json()['first_name'] == name
