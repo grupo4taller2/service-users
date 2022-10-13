@@ -10,6 +10,34 @@ from src.serivce_layer import messagebus
 router = APIRouter()
 
 
+@router.get(
+    '/{a_username}',
+    status_code=status.HTTP_200_OK,
+    response_model=DriverResponse
+)
+async def get_driver(a_username: str):
+    cmd = commands.DriverGetCommand(
+        username=a_username
+    )
+    uow = UnitOfWork()
+    driver: Driver = messagebus.handle(cmd, uow)[0]
+    return DriverResponse(
+        username=driver.username,
+        email=driver.email,
+        first_name=driver.first_name,
+        last_name=driver.last_name,
+        phone_number=driver.phone_number,
+        wallet=driver.wallet,
+        preferred_location_latitude=driver.location.latitude,
+        preferred_location_longitude=driver.location.longitude,
+        preferred_location_name=driver.location.name,
+        car_manufacturer=driver.car.manufacturer,
+        car_model=driver.car.model,
+        car_year_of_production=driver.car.year_of_production,
+        car_color=driver.car.color,
+        car_plate=driver.car.plate)
+
+
 @router.post(
     '',
     status_code=status.HTTP_201_CREATED,

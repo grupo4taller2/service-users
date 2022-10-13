@@ -1,6 +1,7 @@
 from src.domain.commands import (
     Command,
     DriverCreateCommand,
+    DriverGetCommand,
     RiderCreateCommand,
     RiderGetCommand,
     UserCreateCommand,
@@ -118,6 +119,13 @@ def create_driver(cmd: DriverCreateCommand, uow: AbstractUnitOfWork):
         uow.user_repository.save(user)
         driver = _driver_from_cmd(cmd)
         uow.driver_repository.save(driver)
+        uow.commit()
+        return driver
+
+
+def get_driver(cmd: DriverGetCommand, uow: AbstractUnitOfWork):
+    with uow:
+        driver = uow.driver_repository.find_by_username(cmd.username)
         uow.commit()
         return driver
 

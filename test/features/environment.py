@@ -2,6 +2,12 @@ from src.entrypoints.http.main import app
 from behave import fixture, use_fixture
 # import os
 from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from src.conf import config
+
+Session = sessionmaker(bind=create_engine(config.Settings().DATABASE_URI))
+session = Session()
 
 
 # Crea una variable para poder hacer llamadas a la API
@@ -17,6 +23,8 @@ def app_client(context, *args, **kwargs):
 
 def before_feature(context, feature):
     use_fixture(app_client, context)
+    session.execute('TRUNCATE TABLE cars, drivers, riders, users CASCADE;')
+    session.commit()
     # Rollback de variables (permite compartir variables entre steps)
     context.vars = {}
     # context.client.post("/reset")
@@ -24,5 +32,6 @@ def before_feature(context, feature):
 # def after_scenario(context, scenario):
 #    context.client.post("/reset")
 
-# def after_all(context):
-#    del os.environ["TEST_MODE"]
+
+def after_all(context):
+    session.close()
