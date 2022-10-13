@@ -51,14 +51,10 @@ def handle_command(
     uow: AbstractUnitOfWork,
 ):
     logger.debug("handling command %s", command)
-    try:
-        handler = COMMAND_HANDLERS[type(command)]
-        result = handler(command, uow=uow)
-        queue.extend(uow.collect_new_events())
-        return result
-    except Exception:
-        logger.exception("Exception handling command %s", command)
-        raise
+    handler = COMMAND_HANDLERS[type(command)]
+    result = handler(command, uow=uow)
+    queue.extend(uow.collect_new_events())
+    return result
 
 
 EVENT_HANDLERS = {
