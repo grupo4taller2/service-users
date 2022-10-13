@@ -11,5 +11,5 @@ Feature: Riders edit
             And I choose -34.0 as preferred location longitude
             And I choose "some name" as preferred location name
             And I register as a rider
-        When I change my first name to "mateo"
+        When I change the first name of user with email "mateo@mateo.com" to "mateo"
         Then My first name is updated to "mateo"

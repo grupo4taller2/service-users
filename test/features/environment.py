@@ -27,16 +27,18 @@ def app_client(context, *args, **kwargs):
 
 def before_feature(context, feature):
     use_fixture(app_client, context)
-    session.execute('TRUNCATE TABLE cars, drivers, riders, users CASCADE;')
-    session.commit()
     # Rollback de variables (permite compartir variables entre steps)
     context.vars = {}
     context.vars['chosen_rider'] = Rider()
     # context.client.post("/reset")
 
-# def after_scenario(context, scenario):
-#    context.client.post("/reset")
+
+def after_scenario(context, scenario):
+    session.execute('TRUNCATE TABLE users, riders, drivers, cars CASCADE;')
+    session.commit()
 
 
 def after_all(context):
+    session.execute('TRUNCATE TABLE users, riders, drivers, cars CASCADE;')
+    session.commit()
     session.close()

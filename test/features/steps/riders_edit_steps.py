@@ -1,5 +1,5 @@
 from behave import given, when, then
-
+from src.conf.config import Settings
 
 @given(u'I choose "{username}" for username')
 def step_choose_username(context, username):
@@ -31,31 +31,53 @@ def step_choose_wallet(context, a_wallet):
     context.vars["chosen_rider"].wallet = a_wallet
 
 
-@given(u'I choose -34.0 as preferred location latitude')
-def step_choose_preferred_location_latitude(context):
-    raise NotImplementedError
+@given(u'I choose {:f} as preferred location latitude')
+def step_choose_preferred_location_latitude(context, latitude):
+    context.vars["chosen_rider"].preferred_location_latitude = latitude
 
 
-@given(u'I choose -34.0 as preferred location longitude')
-def step_choose_preferred_location_longitude(context):
-    raise NotImplementedError
+@given(u'I choose {:f} as preferred location longitude')
+def step_choose_preferred_location_longitude(context, longitude):
+    context.vars["chosen_rider"].preferred_location_longitude = longitude
 
 
-@given(u'I choose "some name" as preferred location name')
-def step_choose_preferred_location_name(context):
-    raise NotImplementedError
+@given(u'I choose "{some_place}" as preferred location name')
+def step_choose_preferred_location_name(context, some_place):
+    context.vars["chosen_rider"].preferred_location_name = some_place
 
 
 @given(u'I register as a rider')
 def step_register_as_rider_with_chosen_args(context):
-    raise NotImplementedError
+    rider = context.vars['chosen_rider']
+    req_body = {
+        "username": rider.username,
+        "first_name": rider.first_name,
+        "last_name": rider.last_name,
+        "email": rider.email,
+        "wallet": rider.wallet,
+        "phone_number": rider.phone_number,
+        "preferred_location_latitude": rider.preferred_location_latitude,
+        "preferred_location_longitude": rider.preferred_location_longitude,
+        "preferred_location_name": rider.preferred_location_name,
+    }
+    response = context.client.post(
+        Settings().API_V1_STR + '/riders',
+        json=req_body,
+    )
+    assert response.status_code == 201
 
 
-@when(u'I change my first name to "mateo"')
-def step_change_rider_first_name(context):
-    raise NotImplementedError
+@when(u'I change my first name to "{name}"')
+def step_change_rider_first_name(context, name):
+    response = context.client.patch(
+        Settings().API_V1_STR + f'/riders/{name}/status',
+        json={
+            "email": 
+        }
+    )
+    assert response.status_code == 201
 
 
 @then(u'My first name is updated to "mateo"')
 def step_check_rider_first_name_changed(context):
-    raise NotImplementedError
+    pass
