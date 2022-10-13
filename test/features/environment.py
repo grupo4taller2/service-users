@@ -10,6 +10,10 @@ Session = sessionmaker(bind=create_engine(config.Settings().DATABASE_URI))
 session = Session()
 
 
+class Rider:
+    pass
+
+
 # Crea una variable para poder hacer llamadas a la API
 @fixture
 def app_client(context, *args, **kwargs):
@@ -27,6 +31,7 @@ def before_feature(context, feature):
     session.commit()
     # Rollback de variables (permite compartir variables entre steps)
     context.vars = {}
+    context.vars['chosen_rider'] = Rider()
     # context.client.post("/reset")
 
 # def after_scenario(context, scenario):
