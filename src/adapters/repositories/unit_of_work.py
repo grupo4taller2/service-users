@@ -8,14 +8,16 @@ from src.adapters.repositories.admin_repository import AdminRepository
 from src.adapters.repositories.rider_repository import RiderRepository
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
+from src.database.user_dto import UserDTO
 
-# UserDTO.__table__.create(bind=engine, checkfirst=True)
 
-DEFAULT_SESSION_FACTORY = sessionmaker(
-    bind=create_engine(
+engine = create_engine(
         config.Settings().DATABASE_URI,
         isolation_level="REPEATABLE READ",
     )
+
+DEFAULT_SESSION_FACTORY = sessionmaker(
+    bind=engine
 )
 
 
