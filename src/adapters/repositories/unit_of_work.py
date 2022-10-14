@@ -9,6 +9,8 @@ from src.adapters.repositories.rider_repository import RiderRepository
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
 
+# UserDTO.__table__.create(bind=engine, checkfirst=True)
+
 DEFAULT_SESSION_FACTORY = sessionmaker(
     bind=create_engine(
         config.Settings().DATABASE_URI,

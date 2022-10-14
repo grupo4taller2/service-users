@@ -6,7 +6,8 @@ from src.domain.commands import (
     RiderGetCommand,
     RiderUpdateCommand,
     UserCreateCommand,
-    UserGetCommand
+    UserGetCommand,
+    UserSearchCommand
 )
 from src.domain.events import (
     UserCreatedEvent
@@ -84,6 +85,15 @@ def get_user(cmd: UserGetCommand, uow: AbstractUnitOfWork):
         user = uow.user_repository.find_by_email_or_username(
             username=cmd.username,
             email=cmd.username)
+        uow.commit()
+        return user
+
+
+def search_user(cmd: UserSearchCommand, uow: AbstractUnitOfWork):
+    with uow:
+        user = uow.user_repository.search_by_username_like(
+            like=cmd.username_like
+        )
         uow.commit()
         return user
 

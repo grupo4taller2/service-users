@@ -13,9 +13,12 @@ class UserCreateCommand(Command):
     email: EmailStr
 
 
-# FIXME: cambiar username por userID
 class UserGetCommand(Command):
     username: str
+
+
+class UserSearchCommand(Command):
+    username_like: str
 
 
 class RiderCreateCommand(UserCreateCommand):

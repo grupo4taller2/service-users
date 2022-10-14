@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import APIRouter, status
 
 from src.adapters.repositories.unit_of_work import UnitOfWork
@@ -28,6 +29,26 @@ async def get_user(a_username: str):
                         first_name=user.first_name,
                         last_name=user.last_name,
                         email=user.email)
+
+
+@router.get(
+    '/search/{username_like}',
+    status_code=status.HTTP_200_OK,
+    response_model=List[UserResponse]
+)
+async def search_user(username_like: str):
+    cmd = commands.UserSearchCommand(
+        username_like=username_like
+    )
+    uow = UnitOfWork()
+    users: List[User] = messagebus.handle(cmd, uow)[0]
+    return [
+        UserResponse(username=u.username,
+                     first_name=u.first_name,
+                     last_name=u.last_name,
+                     email=u.email)
+        for u in users
+    ]
 
 
 @router.post(
