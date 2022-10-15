@@ -5,7 +5,8 @@ from src.entrypoints.http.api.v1 import api
 
 from src.serivce_layer.exceptions import (
     DriverNotFoundException,
-    UserNotFoundException
+    UserNotFoundException,
+    RiderNotFoundException
 )
 
 from src.entrypoints.http.api.v1.exception_handlers import (
@@ -22,3 +23,4 @@ app.include_router(root_router)
 
 app.add_exception_handler(UserNotFoundException, user_not_found_exception)
 app.add_exception_handler(DriverNotFoundException, driver_not_found_exception)
+app.add_exception_handler(RiderNotFoundException, driver_not_found_exception)
