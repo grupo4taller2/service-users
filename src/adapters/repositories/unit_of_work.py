@@ -8,8 +8,6 @@ from src.adapters.repositories.admin_repository import AdminRepository
 from src.adapters.repositories.rider_repository import RiderRepository
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
-from src.database.user_dto import UserDTO
-
 
 engine = create_engine(
         config.Settings().DATABASE_URI,

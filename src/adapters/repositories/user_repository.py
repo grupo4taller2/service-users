@@ -34,20 +34,16 @@ class UserRepository(BaseRepository):
         return user
 
     def search_by_username_like(self, like: str) -> User:
-        
-        #query = self.session.query(UserDTO)
-        #query = query.filter(UserDTO.username.ilike(f'%{like}%')).limit(2)
-        
         try:
-            # user_dtos = self.session.query(UserDTO).filter(UserDTO.username.ilike(f'%{like}%')).all()
             user_dtos = self.session.query(UserDTO)
-            user_dtos = user_dtos.filter(UserDTO.username.ilike(f'%{like}%')).all()
+            user_dtos = \
+                user_dtos.filter(UserDTO.username.ilike(f'%{like}%')).all()
         except NoResultFound:
             raise UserNotFoundException(like)
         except Exception:
             raise
         found_users = []
-        
+
         for udto in user_dtos:
             user = udto.to_entity()
             self.seen.add(user)
