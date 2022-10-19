@@ -12,7 +12,7 @@ class RiderCreateRequest(req_res_users_models.UserCreateRequest):
 
 
 class RiderResponse(req_res_users_models.UserResponse):
-    phone_number: str = Field(example="cryptowallet")
+    phone_number: str = Field(example="+54111522223333")
     wallet: str = Field(example="cryptowallet")
     preferred_location_latitude: float = Field(example=-34.612580)
     preferred_location_longitude: float = Field(example=-58.408061)

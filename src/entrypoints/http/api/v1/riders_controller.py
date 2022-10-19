@@ -77,7 +77,7 @@ async def update_rider_status(email: str, req: RiderUpdateRequest):
         first_name=req.first_name,
         last_name=req.last_name,
         phone_number=req.phone_number,
-        wallet=req.phone_number,
+        wallet=req.wallet,
         preferred_location_latitude=req.preferred_location_latitude,
         preferred_location_longitude=req.preferred_location_longitude,
         preferred_location_name=req.preferred_location_name
@@ -89,7 +89,7 @@ async def update_rider_status(email: str, req: RiderUpdateRequest):
         email=rider.email,
         first_name=rider.first_name,
         last_name=rider.last_name,
-        phone_number=rider.email,
+        phone_number=rider.phone_number,
         wallet=rider.wallet,
         preferred_location_latitude=rider.location.latitude,
         preferred_location_longitude=rider.location.longitude,
