@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status
 from src.entrypoints.http.api.v1.req_res_drivers_models \
-    import DriverResponse, DriverCreateRequest
+    import DriverResponse, DriverCreateRequest, DriverUpdateRequest
 
 from src.domain.driver import Driver
 from src.adapters.repositories.unit_of_work import UnitOfWork
@@ -11,13 +11,13 @@ router = APIRouter()
 
 
 @router.get(
-    '/{a_username}',
+    '/{email}',
     status_code=status.HTTP_200_OK,
     response_model=DriverResponse
 )
-async def get_driver(a_username: str):
+async def get_driver(email: str):
     cmd = commands.DriverGetCommand(
-        username=a_username
+        email=email
     )
     uow = UnitOfWork()
     driver: Driver = messagebus.handle(cmd, uow)[0]
@@ -78,3 +78,38 @@ async def create_driver(req: DriverCreateRequest):
         car_color=driver.car.color,
         car_plate=driver.car.plate
     )
+
+
+@router.patch(
+    '/{email}/status',
+    response_model=DriverResponse,
+    status_code=status.HTTP_202_ACCEPTED,
+)
+async def update_driver_status(email: str, req: DriverUpdateRequest):
+    cmd = commands.DriverUpdateCommand(
+        email=email,
+        first_name=req.first_name,
+        last_name=req.last_name,
+        phone_number=req.phone_number,
+        wallet=req.wallet,
+        preferred_location_latitude=req.preferred_location_latitude,
+        preferred_location_longitude=req.preferred_location_longitude,
+        preferred_location_name=req.preferred_location_name
+    )
+    uow = UnitOfWork()
+    driver: Driver = messagebus.handle(cmd, uow)[0]
+    return DriverResponse(
+        username=driver.username,
+        email=driver.email,
+        first_name=driver.first_name,
+        last_name=driver.last_name,
+        phone_number=driver.phone_number,
+        wallet=driver.wallet,
+        preferred_location_latitude=driver.location.latitude,
+        preferred_location_longitude=driver.location.longitude,
+        preferred_location_name=driver.location.name,
+        car_manufacturer=driver.car.manufacturer,
+        car_model=driver.car.model,
+        car_year_of_production=driver.car.year_of_production,
+        car_color=driver.car.color,
+        car_plate=driver.car.plate)

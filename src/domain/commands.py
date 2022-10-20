@@ -30,8 +30,7 @@ class RiderCreateCommand(UserCreateCommand):
 
 
 class RiderGetCommand(Command):
-    username: str
-    email: Optional[str]
+    email: str
 
 
 class RiderUpdateCommand(Command):
@@ -59,4 +58,15 @@ class DriverCreateCommand(UserCreateCommand):
 
 
 class DriverGetCommand(Command):
-    username: str
+    email: str
+
+
+class DriverUpdateCommand(Command):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    email: EmailStr
+    phone_number: Optional[str]
+    wallet: Optional[str]
+    preferred_location_name: Optional[str]
+    preferred_location_latitude: Optional[float]
+    preferred_location_longitude: Optional[float]

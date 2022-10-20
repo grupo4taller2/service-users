@@ -15,13 +15,13 @@ router = APIRouter()
 
 
 @router.get(
-    '/{a_username}',
+    '/{email}',
     status_code=status.HTTP_200_OK,
     response_model=RiderResponse
 )
-async def get_rider(a_username: str):
+async def get_rider(email: str):
     cmd = commands.RiderGetCommand(
-        username=a_username
+        email=email
     )
     uow = UnitOfWork()
     rider: Rider = messagebus.handle(cmd, uow)[0]
