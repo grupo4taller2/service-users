@@ -70,3 +70,11 @@ class DriverUpdateCommand(Command):
     preferred_location_name: Optional[str]
     preferred_location_latitude: Optional[float]
     preferred_location_longitude: Optional[float]
+
+
+class AdminCreateCommand(Command):
+    email: EmailStr
+
+
+class AdminGetCommand(Command):
+    email: EmailStr

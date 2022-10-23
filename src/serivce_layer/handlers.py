@@ -1,4 +1,6 @@
 from src.domain.commands import (
+    AdminCreateCommand,
+    AdminGetCommand,
     Command,
     DriverCreateCommand,
     DriverGetCommand,
@@ -21,6 +23,7 @@ from src.domain.rider import Rider
 from src.domain.driver import Driver
 from src.domain.car import Car
 from src.domain.location import Location
+from src.domain.admin import Admin
 
 
 def _user_from_cmd(cmd: Command) -> User:
@@ -182,6 +185,27 @@ def update_driver(cmd: DriverUpdateCommand, uow: AbstractUnitOfWork):
         updated_driver = uow.driver_repository.update(driver)
         uow.commit()
         return updated_driver
+
+
+def create_admin(cmd: AdminCreateCommand, uow: AbstractUnitOfWork):
+    with uow:
+        user: User = uow.user_repository.find_by_email(cmd.email)
+        admin: Admin = Admin(username=user.username,
+                             first_name=user.first_name,
+                             last_name=user.last_name,
+                             email=user.email,
+                             blocked=False,
+                             events=[])
+        uow.admin_repository.save(admin)
+        uow.commit()
+        return admin
+
+
+def get_admin(cmd: AdminGetCommand, uow: AbstractUnitOfWork):
+    with uow:
+        admin: Admin = uow.admin_repository.find_by_email(cmd.email)
+        uow.commit()
+        return admin
 
 
 def publish_created_event(event: UserCreatedEvent,
