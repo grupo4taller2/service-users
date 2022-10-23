@@ -26,6 +26,9 @@ async def create_admin(req: AdminCreateRequest):
     uow = UnitOfWork()
     admin: Admin = messagebus.handle(cmd, uow)[0]
     return AdminResponse(
+        username=admin.username,
+        first_name=admin.first_name,
+        last_name=admin.last_name,
         email=admin.email
     )
 
@@ -41,4 +44,9 @@ async def get_admin(email: str):
     )
     uow = UnitOfWork()
     admin: Admin = messagebus.handle(cmd, uow)[0]
-    return AdminResponse(email=admin.email)
+    return AdminResponse(
+        username=admin.username,
+        first_name=admin.first_name,
+        last_name=admin.last_name,
+        email=admin.email
+    )
