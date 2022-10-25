@@ -1,6 +1,6 @@
 from pydantic import EmailStr, Field
 from pydantic.main import BaseModel
-from src.entrypoints.http.api.v1.req_res_users_models import (
+from src.webapi.v1.users.req_res_users_models import (
     UserResponse
 )
 

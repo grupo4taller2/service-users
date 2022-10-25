@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI, APIRouter
 from src.conf.config import Settings
-from src.entrypoints.http.api.v1 import api
+from src.webapi.v1 import api
 
 from src.serivce_layer.exceptions import (
     DriverNotFoundException,
@@ -9,7 +9,7 @@ from src.serivce_layer.exceptions import (
     RiderNotFoundException
 )
 
-from src.entrypoints.http.api.v1.exception_handlers import (
+from src.webapi.v1.exception_handlers import (
     driver_not_found_exception,
     user_not_found_exception
 )

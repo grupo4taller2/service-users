@@ -1,14 +1,14 @@
 from typing import List
 from fastapi import APIRouter, status
 
-from src.adapters.repositories.unit_of_work import UnitOfWork
+from src.repositories.unit_of_work import UnitOfWork
 from src.domain import commands
 from src.domain.user import User
 from src.serivce_layer import messagebus
 
-from src.entrypoints.http.api.v1.req_res_users_models import (
+from src.webapi.v1.users.req_res_users_models import (
     UserCreateRequest,
-    UserResponse,
+    UserResponse
 )
 
 router = APIRouter()

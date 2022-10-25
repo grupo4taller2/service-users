@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import abc
-from src.adapters.repositories.base_repository import BaseRepository
+from src.repositories.base_repository import BaseRepository
 
 
 class AbstractUnitOfWork(abc.ABC):

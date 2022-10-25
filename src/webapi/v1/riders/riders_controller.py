@@ -1,14 +1,15 @@
 from fastapi import APIRouter, status
 
 from src.domain.rider import Rider
-from src.adapters.repositories.unit_of_work import UnitOfWork
+from src.repositories.unit_of_work import UnitOfWork
 from src.domain import commands
 from src.serivce_layer import messagebus
 
-from src.entrypoints.http.api.v1.req_res_riders_models import (
+from src.webapi.v1.riders.req_res_riders_models import (
     RiderCreateRequest,
     RiderResponse,
     RiderUpdateRequest,
+
 )
 
 router = APIRouter()

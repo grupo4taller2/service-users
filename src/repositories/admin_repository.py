@@ -7,7 +7,7 @@ from src.serivce_layer.exceptions import (
     AdminNotFoundException
 )
 
-from src.adapters.repositories.base_repository import BaseRepository
+from src.repositories.base_repository import BaseRepository
 from src.domain.admin import Admin
 from src.database.user_dto import UserDTO
 from src.database.admin_dto import AdminDTO

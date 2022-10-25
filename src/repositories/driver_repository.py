@@ -7,7 +7,7 @@ from src.serivce_layer.exceptions import (
     UserNotFoundException
 )
 
-from src.adapters.repositories.base_repository import BaseRepository
+from src.repositories.base_repository import BaseRepository
 from src.domain.user import User
 from src.domain.driver import Driver
 from src.domain.location import Location

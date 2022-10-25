@@ -5,7 +5,7 @@ from src.serivce_layer.exceptions import (
     UserNotFoundException
 )
 
-from src.adapters.repositories.base_repository import BaseRepository
+from src.repositories.base_repository import BaseRepository
 from src.domain.rider import Rider
 from src.domain.location import Location
 from src.database.user_dto import UserDTO

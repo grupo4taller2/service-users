@@ -1,9 +1,13 @@
 from fastapi import APIRouter, status
-from src.entrypoints.http.api.v1.req_res_drivers_models \
-    import DriverResponse, DriverCreateRequest, DriverUpdateRequest
+
+from src.webapi.v1.drivers.req_res_drivers_models import (
+    DriverCreateRequest,
+    DriverResponse,
+    DriverUpdateRequest
+)
 
 from src.domain.driver import Driver
-from src.adapters.repositories.unit_of_work import UnitOfWork
+from src.repositories.unit_of_work import UnitOfWork
 from src.domain import commands
 from src.serivce_layer import messagebus
 

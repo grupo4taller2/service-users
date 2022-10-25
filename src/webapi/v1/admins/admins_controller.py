@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status
-from src.adapters.repositories.unit_of_work import UnitOfWork
+from src.repositories.unit_of_work import UnitOfWork
 
-from src.entrypoints.http.api.v1.admins.req_res_admins_models import (
+from src.webapi.v1.admins.req_res_admins_models import (
     AdminCreateRequest,
     AdminResponse
 )
