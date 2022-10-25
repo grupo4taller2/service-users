@@ -47,13 +47,14 @@ def step_create_driver(context, username):
                 "car_plate": "AAA 123"
                 }
         )
+    context.email = response.json()['email']
     assert response.status_code == 201
 
 
 @then(u'The driver "{driver_username}" exists in the platform')
 def step_fetch_driver(context, driver_username):
     response = context.client.get(
-        f'{Settings().API_V1_STR}/drivers/{driver_username}'
+        f'{Settings().API_V1_STR}/drivers/{context.email}'
     )
     assert response.status_code == 200
     assert response.json()['username'] == driver_username
