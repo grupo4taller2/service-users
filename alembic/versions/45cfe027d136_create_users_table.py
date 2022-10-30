@@ -10,7 +10,6 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 import uuid
 from sqlalchemy.sql import func
-import constants as c
 
 
 # revision identifiers, used by Alembic.
@@ -20,15 +19,23 @@ branch_labels = None
 depends_on = None
 
 
+F_NAME_MAX_LEN = 64
+L_NAME_MAX_LEN = 64
+EMAIL_MAX_LEN = 64
+USERNAME_MAX_LEN = 30
+HASHED_PASS_LEN = 128
+WALLET_LEN = 128
+
+
 def upgrade() -> None:
     op.create_table(
         'users',
         sa.Column('id', postgresql.UUID(as_uuid=True), default=uuid.uuid4),
-        sa.Column('username', sa.String(c.USERNAME_MAX_LEN), nullable=False,
+        sa.Column('username', sa.String(USERNAME_MAX_LEN), nullable=False,
                   primary_key=True, index=True),
-        sa.Column('first_name', sa.String(c.F_NAME_MAX_LEN)),
-        sa.Column('last_name', sa.String(c.L_NAME_MAX_LEN)),
-        sa.Column('email', sa.String(c.EMAIL_MAX_LEN), nullable=False,
+        sa.Column('first_name', sa.String(F_NAME_MAX_LEN)),
+        sa.Column('last_name', sa.String(L_NAME_MAX_LEN)),
+        sa.Column('email', sa.String(EMAIL_MAX_LEN), nullable=False,
                   unique=True),
         sa.Column('blocked', sa.Boolean, nullable=False, default=False),
         sa.Column('created_at', sa.DateTime, server_default=func.now(),
