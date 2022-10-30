@@ -19,14 +19,16 @@ USERNAME_MAX_LEN = 30
 ADDRESS_MAX_LEN = 128
 UUID4_LEN = 36
 TRIP_TYPE_MAX_LEN = 32
+TRIP_STATE_MAX_LEN = 32
 
 
 # FIXME: Add non nulls
 def upgrade() -> None:
     op.create_table(
         'requested_trips',
-        sa.Column('id', sa.String(UUID4_LEN), unique=True),
-        sa.Column('username', sa.String(USERNAME_MAX_LEN), primary_key=True),
+        sa.Column('id', sa.String(UUID4_LEN), primary_key=True),
+        sa.Column('state', sa.String(TRIP_STATE_MAX_LEN)),
+        sa.Column('rider_username', sa.String(USERNAME_MAX_LEN)),
         sa.Column('origin_address', sa.String(ADDRESS_MAX_LEN)),
         sa.Column('origin_latitude', sa.Float),
         sa.Column('origin_longitude', sa.Float),
@@ -45,4 +47,4 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    pass
+    op.drop_table('requested_trips')
