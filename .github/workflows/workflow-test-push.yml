@@ -1,4 +1,4 @@
-name: WorkflowTest
+name: Push
 
 on:
   push:
