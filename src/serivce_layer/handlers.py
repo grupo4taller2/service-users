@@ -1,3 +1,7 @@
+from lib2to3.pgen2 import driver
+
+from src.webapi.v1.qualy_drivers.req_res_qualy_driver import Driver_qualification_response
+from src.webapi.v1.qualy_passenger.req_res_qualy_passenger import Passenger_qualification_response
 from src.domain.commands import (
     AdminCreateCommand,
     AdminGetCommand,
@@ -10,11 +14,18 @@ from src.domain.commands import (
     RiderUpdateCommand,
     UserCreateCommand,
     UserGetCommand,
-    UserSearchCommand
+    UserSearchCommand,
+    DriverQualyCreateCommand,
+    DriverQualyGetCommand,
+    DriverQualyGetAverageCommand,
+    PassengerQualyCreateCommand,
+    PassengerQualyGetCommand,
+    PassengerQualyGetAverageCommand
 )
 from src.domain.events import (
     UserCreatedEvent
 )
+from src.no_sql_database.no_sql_db import driver_collection,passenger_collection
 
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
@@ -24,6 +35,7 @@ from src.domain.driver import Driver
 from src.domain.car import Car
 from src.domain.location import Location
 from src.domain.admin import Admin
+from src.domain.driver_qualification import Driver_qualification
 
 
 def _user_from_cmd(cmd: Command) -> User:
@@ -211,3 +223,93 @@ def get_admin(cmd: AdminGetCommand, uow: AbstractUnitOfWork):
 def publish_created_event(event: UserCreatedEvent,
                           uow: AbstractUnitOfWork):
     print(f'Created event {event}')
+
+
+
+
+
+
+
+def command_to_dict(command_mongo):
+    new_command = {"passenger_username": command_mongo.passenger_username,
+    "qualy": command_mongo.qualy,
+    "opinion": command_mongo.opinion,
+    "driver_username": command_mongo.driver_username}
+    return new_command
+
+def bson_to_dict(item):
+    print(item)
+    if("opinion" in item):
+        new_dict = {
+            "passenger_username": item["passenger_username"],
+            "qualy": item["qualy"],
+            "opinion": item["opinion"],
+            "driver_username": item["driver_username"]
+        }
+        return new_dict
+    return None
+
+def mongo_docs_to_list(doc):
+    lista =[]
+    for item in doc:
+        new_item = bson_to_dict(item)
+        if new_item != None:
+            lista.append(new_item)
+    return lista
+
+
+def average_calculation(docs):
+    cant_docs = 0
+    suma = 0
+    for item in docs:
+        suma = suma + item["qualy"]
+        cant_docs +=1
+    promedio = suma // cant_docs
+    return promedio
+
+def get_qualy_driver(cmd: DriverQualyGetCommand, uow: AbstractUnitOfWork):
+    docs = driver_collection.find({"driver_username":cmd.driver_username})
+    lista_docs = mongo_docs_to_list(docs)
+    return lista_docs
+    
+
+    
+def create_qualy_driver(cmd: DriverQualyCreateCommand, uow: AbstractUnitOfWork):
+    #pasa0r de cmd a objeto-crear-metodo
+    cmd_as_dict = command_to_dict(cmd)
+    id = driver_collection.insert_one(cmd_as_dict)
+    return Driver_qualification_response(passenger_username=cmd.passenger_username,
+    qualy  = cmd.qualy,
+    opinion=cmd.opinion,
+    driver_username = cmd.driver_username)
+
+
+def get_qualy_average_driver(cmd: DriverQualyGetAverageCommand, uow: AbstractUnitOfWork):
+    docs = driver_collection.find({"driver_username":cmd.driver_username})
+    promedio = average_calculation(docs)
+    return promedio
+    
+
+
+def get_qualy_passenger(cmd: PassengerQualyGetCommand, uow: AbstractUnitOfWork):
+    docs = passenger_collection.find({"passenger_username":cmd.passenger_username})
+    lista_docs = mongo_docs_to_list(docs)
+    return lista_docs
+    
+
+    
+def create_qualy_passenger(cmd: PassengerQualyCreateCommand, uow: AbstractUnitOfWork):
+    #pasa0r de cmd a objeto-crear-metodo
+    cmd_as_dict = command_to_dict(cmd)
+    id = passenger_collection.insert_one(cmd_as_dict)
+    return Passenger_qualification_response(passenger_username=cmd.passenger_username,
+    qualy  = cmd.qualy,
+    opinion=cmd.opinion,
+    driver_username = cmd.driver_username)
+
+
+
+def get_qualy_average_passenger(cmd: PassengerQualyGetAverageCommand, uow: AbstractUnitOfWork):
+    docs = passenger_collection.find({"passenger_username":cmd.passenger_username})
+    promedio = average_calculation(docs)
+    return promedio

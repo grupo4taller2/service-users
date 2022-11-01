@@ -1,6 +1,9 @@
 from __future__ import annotations
+from cmath import pi
 import logging
 from typing import List, Dict, Callable, Type, Union
+
+from src.repositories.unit_of_work_mongo import UnitOfWorkMongo
 from src.domain import commands, events
 from . import handlers
 
@@ -53,6 +56,10 @@ def handle_command(
     logger.debug("handling command %s", command)
     handler = COMMAND_HANDLERS[type(command)]
     result = handler(command, uow=uow)
+    #print(uow.type())
+    #if(uow.type())
+    if isinstance(uow,UnitOfWorkMongo):
+        return result
     queue.extend(uow.collect_new_events())
     return result
 
@@ -76,4 +83,12 @@ COMMAND_HANDLERS = {
 
     commands.AdminCreateCommand: handlers.create_admin,
     commands.AdminGetCommand: handlers.get_admin,
+
+    commands.DriverQualyGetCommand: handlers.get_qualy_driver,
+    commands.DriverQualyCreateCommand: handlers.create_qualy_driver,
+    commands.DriverQualyGetAverageCommand: handlers.get_qualy_average_driver,
+
+    commands.PassengerQualyGetCommand: handlers.get_qualy_passenger,
+    commands.PassengerQualyCreateCommand: handlers.create_qualy_passenger,
+    commands.PassengerQualyGetAverageCommand: handlers.get_qualy_average_passenger
 }  # type: Dict[Type[commands.Command], Callable]

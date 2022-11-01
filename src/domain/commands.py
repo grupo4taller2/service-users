@@ -1,3 +1,4 @@
+from re import S
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 
@@ -70,6 +71,36 @@ class DriverUpdateCommand(Command):
     preferred_location_name: Optional[str]
     preferred_location_latitude: Optional[float]
     preferred_location_longitude: Optional[float]
+
+
+class DriverQualyGetCommand(Command):
+    driver_username: str
+
+
+class DriverQualyGetAverageCommand(Command):
+    driver_username: str
+
+
+
+class DriverQualyCreateCommand(Command):
+    passenger_username: str
+    qualy: int
+    opinion: str
+    driver_username: str
+
+
+class PassengerQualyGetCommand(Command):
+    passenger_username: str
+
+
+class PassengerQualyGetAverageCommand(Command):
+    passenger_username: str
+
+class PassengerQualyCreateCommand(Command):
+    driver_username: str
+    qualy: int
+    opinion: str
+    passenger_username: str
 
 
 class AdminCreateCommand(Command):
