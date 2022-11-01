@@ -10,8 +10,6 @@ from src.domain.admin import Admin
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
-
-
 class AdminDTO(Base):
     __tablename__ = 'admins'
     username: Union[str, Column] = Column(String,
