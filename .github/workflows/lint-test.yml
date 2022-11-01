@@ -1,4 +1,4 @@
-name: WorkflowTest
+name: Lint and Test
 
 on:
   pull_request:
