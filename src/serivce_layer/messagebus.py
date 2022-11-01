@@ -65,6 +65,7 @@ COMMAND_HANDLERS = {
     commands.UserCreateCommand: handlers.create_user,
     commands.UserGetCommand: handlers.get_user,
     commands.UserSearchCommand: handlers.search_user,
+    commands.UserGetAllCommand: handlers.get_all_users,
 
     commands.RiderCreateCommand: handlers.create_rider,
     commands.RiderGetCommand: handlers.get_rider,

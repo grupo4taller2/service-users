@@ -21,6 +21,12 @@ class UserSearchCommand(Command):
     username_like: str
 
 
+class UserGetAllCommand(Command):
+    username_like: Optional[str]
+    offset: Optional[int] = 0
+    limit: Optional[int] = 5
+
+
 class RiderCreateCommand(UserCreateCommand):
     phone_number: str
     wallet: str

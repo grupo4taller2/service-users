@@ -1,3 +1,4 @@
+from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 from src.serivce_layer.exceptions import UserNotFoundException
@@ -77,3 +78,18 @@ class UserRepository(BaseRepository):
 
     def update(self, user: User) -> User:
         raise NotImplementedError
+
+    def all(self, username_like: str, offset: int, limit: int) -> List[User]:
+        print(f'{username_like}, {offset}, {limit}')
+        user_dtos = self.session.query(UserDTO)
+        if username_like is not None:
+            user_dtos = user_dtos.filter(
+                UserDTO.username.ilike(f'%{username_like}%'))
+
+        user_dtos = user_dtos.limit(limit).offset(offset)
+        found_users = []
+        for u_dto in user_dtos:
+            user = u_dto.to_entity()
+            self.seen.add(user)
+            found_users.append(user)
+        return found_users
