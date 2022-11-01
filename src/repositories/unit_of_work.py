@@ -1,19 +1,21 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from src.adapters.repositories.driver_repository import DriverRepository
+from src.repositories.driver_repository import DriverRepository
 from src.conf import config
 
-from src.adapters.repositories.user_repository import UserRepository
-from src.adapters.repositories.admin_repository import AdminRepository
-from src.adapters.repositories.rider_repository import RiderRepository
+from src.repositories.user_repository import UserRepository
+from src.repositories.admin_repository import AdminRepository
+from src.repositories.rider_repository import RiderRepository
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
 
-DEFAULT_SESSION_FACTORY = sessionmaker(
-    bind=create_engine(
+engine = create_engine(
         config.Settings().DATABASE_URI,
         isolation_level="REPEATABLE READ",
     )
+
+DEFAULT_SESSION_FACTORY = sessionmaker(
+    bind=engine
 )
 
 

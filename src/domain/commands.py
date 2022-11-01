@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 
 class Command(BaseModel):
@@ -16,6 +17,10 @@ class UserGetCommand(Command):
     username: str
 
 
+class UserSearchCommand(Command):
+    username_like: str
+
+
 class RiderCreateCommand(UserCreateCommand):
     phone_number: str
     wallet: str
@@ -25,7 +30,18 @@ class RiderCreateCommand(UserCreateCommand):
 
 
 class RiderGetCommand(Command):
-    username: str
+    email: str
+
+
+class RiderUpdateCommand(Command):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    email: EmailStr
+    phone_number: Optional[str]
+    wallet: Optional[str]
+    preferred_location_name: Optional[str]
+    preferred_location_latitude: Optional[float]
+    preferred_location_longitude: Optional[float]
 
 
 class DriverCreateCommand(UserCreateCommand):
@@ -42,4 +58,23 @@ class DriverCreateCommand(UserCreateCommand):
 
 
 class DriverGetCommand(Command):
-    username: str
+    email: str
+
+
+class DriverUpdateCommand(Command):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    email: EmailStr
+    phone_number: Optional[str]
+    wallet: Optional[str]
+    preferred_location_name: Optional[str]
+    preferred_location_latitude: Optional[float]
+    preferred_location_longitude: Optional[float]
+
+
+class AdminCreateCommand(Command):
+    email: EmailStr
+
+
+class AdminGetCommand(Command):
+    email: EmailStr

@@ -7,7 +7,7 @@ from src.serivce_layer.exceptions import (
     AdminNotFoundException
 )
 
-from src.adapters.repositories.base_repository import BaseRepository
+from src.repositories.base_repository import BaseRepository
 from src.domain.admin import Admin
 from src.database.user_dto import UserDTO
 from src.database.admin_dto import AdminDTO
@@ -52,7 +52,29 @@ class AdminRepository(BaseRepository):
         return admin
 
     def find_by_email(self, email: str) -> User:
-        raise NotImplementedError
+        try:
+            user_dto: UserDTO = self.session.query(UserDTO) \
+                .filter_by(email=email).one()
+        except NoResultFound:
+            raise UserNotFoundException(email)
+        try:
+            username = user_dto.username
+            admin_dto: AdminDTO = self.session.query(AdminDTO) \
+                .filter_by(username=user_dto.username).one()
+        except NoResultFound:
+            raise AdminNotFoundException(f'Admin {username} not found')
+
+        admin = Admin(username=admin_dto.username,
+                      first_name=user_dto.first_name,
+                      last_name=user_dto.last_name,
+                      email=user_dto.email,
+                      blocked=user_dto.blocked,
+                      events=[])
+        self.seen.add(admin)
+        return admin
 
     def find_by_email_or_username(self, email: str, username: str) -> User:
+        raise NotImplementedError
+
+    def update(self, admin: Admin) -> Admin:
         raise NotImplementedError

@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 from src.serivce_layer.exceptions import UserNotFoundException
 
-from src.adapters.repositories.base_repository import BaseRepository
+from src.repositories.base_repository import BaseRepository
 from src.domain.user import User
 from src.database.user_dto import UserDTO
 
@@ -33,6 +33,23 @@ class UserRepository(BaseRepository):
         self.seen.add(user)
         return user
 
+    def search_by_username_like(self, like: str) -> User:
+        try:
+            user_dtos = self.session.query(UserDTO)
+            user_dtos = \
+                user_dtos.filter(UserDTO.username.ilike(f'%{like}%')).all()
+        except NoResultFound:
+            raise UserNotFoundException(like)
+        except Exception:
+            raise
+        found_users = []
+
+        for udto in user_dtos:
+            user = udto.to_entity()
+            self.seen.add(user)
+            found_users.append(user)
+        return found_users
+
     def find_by_email(self, email: str) -> User:
         try:
             user_dto = self.session.query(UserDTO) \
@@ -57,3 +74,6 @@ class UserRepository(BaseRepository):
         user = user_dto.to_entity()
         self.seen.add(user)
         return user
+
+    def update(self, user: User) -> User:
+        raise NotImplementedError

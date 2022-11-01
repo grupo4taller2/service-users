@@ -1,12 +1,10 @@
 from fastapi import APIRouter
 
-from src.entrypoints.http.api.v1 import (
-    users_controller,
-    riders_controller,
-    drivers_controller,
-    healthcheck
-)
-
+from src.webapi.v1.users import users_controller
+from src.webapi.v1.riders import riders_controller
+from src.webapi.v1.drivers import drivers_controller
+from src.webapi.v1.admins import admins_controller
+from src.webapi.v1.healthcheck import healthcheck
 
 api_router = APIRouter()
 
@@ -21,6 +19,10 @@ api_router.include_router(drivers_controller.router,
 api_router.include_router(riders_controller.router,
                           prefix='/riders',
                           tags=['riders'])
+
+api_router.include_router(admins_controller.router,
+                          prefix='/admins',
+                          tags=['admins'])
 
 api_router.include_router(healthcheck.router,
                           prefix="/healthcheck",

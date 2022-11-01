@@ -51,14 +51,10 @@ def handle_command(
     uow: AbstractUnitOfWork,
 ):
     logger.debug("handling command %s", command)
-    try:
-        handler = COMMAND_HANDLERS[type(command)]
-        result = handler(command, uow=uow)
-        queue.extend(uow.collect_new_events())
-        return result
-    except Exception:
-        logger.exception("Exception handling command %s", command)
-        raise
+    handler = COMMAND_HANDLERS[type(command)]
+    result = handler(command, uow=uow)
+    queue.extend(uow.collect_new_events())
+    return result
 
 
 EVENT_HANDLERS = {
@@ -68,9 +64,16 @@ EVENT_HANDLERS = {
 COMMAND_HANDLERS = {
     commands.UserCreateCommand: handlers.create_user,
     commands.UserGetCommand: handlers.get_user,
+    commands.UserSearchCommand: handlers.search_user,
 
     commands.RiderCreateCommand: handlers.create_rider,
     commands.RiderGetCommand: handlers.get_rider,
+    commands.RiderUpdateCommand: handlers.update_rider,
 
-    commands.DriverCreateCommand: handlers.create_driver
+    commands.DriverCreateCommand: handlers.create_driver,
+    commands.DriverGetCommand: handlers.get_driver,
+    commands.DriverUpdateCommand: handlers.update_driver,
+
+    commands.AdminCreateCommand: handlers.create_admin,
+    commands.AdminGetCommand: handlers.get_admin,
 }  # type: Dict[Type[commands.Command], Callable]
