@@ -80,7 +80,6 @@ class UserRepository(BaseRepository):
         raise NotImplementedError
 
     def all(self, username_like: str, offset: int, limit: int) -> List[User]:
-        print(f'{username_like}, {offset}, {limit}')
         user_dtos = self.session.query(UserDTO)
         if username_like is not None:
             user_dtos = user_dtos.filter(

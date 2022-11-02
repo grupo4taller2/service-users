@@ -220,4 +220,4 @@ def get_admin(cmd: AdminGetCommand, uow: AbstractUnitOfWork):
 
 def publish_created_event(event: UserCreatedEvent,
                           uow: AbstractUnitOfWork):
-    print(f'Created event {event}')
+    pass
