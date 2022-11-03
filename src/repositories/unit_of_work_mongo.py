@@ -1,9 +1,7 @@
-
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
 
 class UnitOfWorkMongo(AbstractUnitOfWork):
-
     def __enter__(self):
         return super().__enter__()
 

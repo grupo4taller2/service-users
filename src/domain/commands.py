@@ -1,4 +1,4 @@
-from re import S
+
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 
@@ -81,7 +81,6 @@ class DriverQualyGetAverageCommand(Command):
     driver_username: str
 
 
-
 class DriverQualyCreateCommand(Command):
     passenger_username: str
     qualy: int
@@ -95,6 +94,7 @@ class PassengerQualyGetCommand(Command):
 
 class PassengerQualyGetAverageCommand(Command):
     passenger_username: str
+
 
 class PassengerQualyCreateCommand(Command):
     driver_username: str

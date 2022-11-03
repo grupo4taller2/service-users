@@ -37,5 +37,5 @@ api_router.include_router(qualy_drivers.router,
 
 
 api_router.include_router(qualy_passenger.router,
-                          prefix="/qualy/passenger",
+                          prefix="/qualy/passengers",
                           tags=["qualy_passenger"])
