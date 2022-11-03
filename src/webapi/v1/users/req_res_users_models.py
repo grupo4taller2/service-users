@@ -2,7 +2,6 @@ from pydantic import EmailStr, Field
 from pydantic.main import BaseModel
 
 
-# TODO: Refactor name
 class UserCreateRequest(BaseModel):
     username: str = Field(example="cool_username")
     first_name: str = Field(example="f_name")

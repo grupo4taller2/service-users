@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, status
 
 from src.repositories.unit_of_work import UnitOfWork
@@ -69,3 +69,29 @@ async def create_user(req: UserCreateRequest):
                         first_name=user.first_name,
                         last_name=user.last_name,
                         email=user.email)
+
+
+@router.get(
+    '/',
+    status_code=status.HTTP_200_OK,
+    response_model=List[UserResponse]
+)
+async def get_with_username_like_offset_limit(
+        username_like: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None):
+
+    uow = UnitOfWork()
+    cmd = commands.UserGetAllCommand(
+        username_like=username_like,
+        offset=offset,
+        limit=limit
+    )
+    users = messagebus.handle(cmd, uow)[0]
+    return [
+        UserResponse(username=u.username,
+                     first_name=u.first_name,
+                     last_name=u.last_name,
+                     email=u.email)
+        for u in users
+    ]

@@ -24,8 +24,11 @@ from src.domain.commands import (
     PassengerQualyCreateCommand,
     PassengerQualyGetCommand,
     PassengerQualyGetAverageCommand,
+    UserGetAllCommand
 )
-from src.domain.events import UserCreatedEvent
+from src.domain.events import (
+    UserCreatedEvent
+)
 from src.no_sql_database.no_sql_db import driver_collection, \
                                         passenger_collection
 
@@ -106,12 +109,22 @@ def get_user(cmd: UserGetCommand, uow: AbstractUnitOfWork):
         return user
 
 
+def get_all_users(cmd: UserGetAllCommand, uow: AbstractUnitOfWork):
+    with uow:
+        users = uow.user_repository.all(cmd.username_like,
+                                        cmd.offset,
+                                        cmd.limit)
+        uow.commit()
+        return users
+
+
 def search_user(cmd: UserSearchCommand, uow: AbstractUnitOfWork):
     with uow:
-        user = uow.user_repository \
-            .search_by_username_like(like=cmd.username_like)
+        users = uow.user_repository.search_by_username_like(
+            like=cmd.username_like
+        )
         uow.commit()
-        return user
+        return users
 
 
 def create_user(cmd: UserCreateCommand, uow: AbstractUnitOfWork):
