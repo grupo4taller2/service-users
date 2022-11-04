@@ -19,10 +19,10 @@ depends_on = None
 def upgrade() -> None:
     op.alter_column('requested_trips',
                     'estimated_price',
-                    sa.String(128))
+                    type_=sa.String(128))
 
 
 def downgrade() -> None:
     op.alter_column('requested_trips',
                     'estimated_price',
-                    sa.Float)
+                    type_=sa.Float)
