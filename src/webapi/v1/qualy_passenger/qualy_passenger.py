@@ -21,7 +21,6 @@ async def get_qualys_passenger(username: str):
     cmd = commands.PassengerQualyGetCommand(passenger_username=username)
     uow = UnitOfWorkMongo()
     driver_qualy = messagebus.handle(cmd, uow)[0]
-    print(driver_qualy)
     return driver_qualy
 
 
@@ -50,5 +49,4 @@ async def get_average_passenger(username: str):
     cmd = commands.PassengerQualyGetAverageCommand(passenger_username=username)
     uow = UnitOfWorkMongo()
     promedio = messagebus.handle(cmd, uow)[0]
-    print(promedio)
     return promedio

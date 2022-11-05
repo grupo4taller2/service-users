@@ -21,8 +21,6 @@ async def get_qualys_driver(username: str):
     cmd = commands.DriverQualyGetCommand(driver_username=username)
     uow = UnitOfWorkMongo()
     driver_qualy = messagebus.handle(cmd, uow)[0]
-    print("LA RESPUESTAS ES:")
-    print(driver_qualy)
     return driver_qualy
 
 
@@ -32,7 +30,6 @@ async def get_qualys_driver(username: str):
     # response_model=Driver_qualification_response
 )
 async def create_driver(req: Driver_qualy_create_request):
-    print(req)
     cmd = commands.DriverQualyCreateCommand(
         passenger_username=req.passenger_username,
         opinion=req.opinion,
@@ -52,5 +49,4 @@ async def get_average_driver(username: str):
     cmd = commands.DriverQualyGetAverageCommand(driver_username=username)
     uow = UnitOfWorkMongo()
     promedio = messagebus.handle(cmd, uow)[0]
-    print(promedio)
     return promedio
