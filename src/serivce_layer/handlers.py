@@ -41,6 +41,9 @@ from src.domain.car import Car
 from src.domain.location import Location
 from src.domain.admin import Admin
 
+from fastapi import status
+from fastapi.responses import JSONResponse
+
 
 def _user_from_cmd(cmd: Command) -> User:
     return User(
@@ -277,6 +280,8 @@ def average_calculation(docs):
     for item in docs:
         suma = suma + item["qualy"]
         cant_docs += 1
+    if (cant_docs == 0):
+        return 0
     promedio = suma // cant_docs
     return promedio
 
@@ -284,6 +289,11 @@ def average_calculation(docs):
 def get_qualy_driver(cmd: DriverQualyGetCommand, uow: AbstractUnitOfWork):
     docs = driver_collection.find({"driver_username": cmd.driver_username})
     lista_docs = mongo_docs_to_list(docs)
+    if (len(lista_docs) == 0):
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content=str("Driver not found")
+        )
     return lista_docs
 
 
@@ -305,6 +315,11 @@ def get_qualy_average_driver(
 ):
     docs = driver_collection.find({"driver_username": cmd.driver_username})
     promedio = average_calculation(docs)
+    if (promedio == 0):
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content=str("Driver not found")
+        )
     return promedio
 
 
@@ -313,6 +328,11 @@ def get_qualy_passenger(cmd: PassengerQualyGetCommand,
     docs = passenger_collection \
             .find({"passenger_username": cmd.passenger_username})
     lista_docs = mongo_docs_to_list(docs)
+    if (len(lista_docs) == 0):
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content=str("Passenger not found")
+        )
     return lista_docs
 
 
@@ -335,4 +355,9 @@ def get_qualy_average_passenger(
     docs = passenger_collection \
             .find({"passenger_username": cmd.passenger_username})
     promedio = average_calculation(docs)
+    if (promedio == 0):
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content=str("Passenger not found")
+        )
     return promedio

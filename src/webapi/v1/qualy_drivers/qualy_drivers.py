@@ -21,6 +21,7 @@ async def get_qualys_driver(username: str):
     cmd = commands.DriverQualyGetCommand(driver_username=username)
     uow = UnitOfWorkMongo()
     driver_qualy = messagebus.handle(cmd, uow)[0]
+    print("LA RESPUESTAS ES:")
     print(driver_qualy)
     return driver_qualy
 
