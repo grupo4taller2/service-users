@@ -282,7 +282,7 @@ def average_calculation(docs):
         cant_docs += 1
     if (cant_docs == 0):
         return 0
-    promedio = round(suma / cant_docs,1)
+    promedio = round(suma / cant_docs, 1)
     return promedio
 
 
@@ -324,7 +324,7 @@ def get_qualy_average_driver(
 
 
 def get_qualy_rider(cmd: RiderQualyGetCommand,
-                        uow: AbstractUnitOfWork):
+                    uow: AbstractUnitOfWork):
     docs = rider_collection \
             .find({"rider_username": cmd.rider_username})
     lista_docs = mongo_docs_to_list(docs)
@@ -337,7 +337,7 @@ def get_qualy_rider(cmd: RiderQualyGetCommand,
 
 
 def create_qualy_rider(cmd: RiderQualyCreateCommand,
-                           uow: AbstractUnitOfWork):
+                       uow: AbstractUnitOfWork):
     # pasa0r de cmd a objeto-crear-metodo
     cmd_as_dict = command_to_dict(cmd)
     rider_collection.insert_one(cmd_as_dict)
