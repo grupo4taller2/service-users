@@ -71,7 +71,6 @@ class DriverRepository(BaseRepository):
                         blocked=user_dto.blocked,
                         events=[],
                         phone_number=driver_dto.phone_number,
-                        wallet=driver_dto.wallet,
                         location=location,
                         car=car_dto.to_entity())
         self.seen.add(driver)
@@ -109,7 +108,6 @@ class DriverRepository(BaseRepository):
                         blocked=user_dto.blocked,
                         events=[],
                         phone_number=driver_dto.phone_number,
-                        wallet=driver_dto.wallet,
                         location=location,
                         car=car_dto.to_entity()
                         )
@@ -124,7 +122,6 @@ class DriverRepository(BaseRepository):
         }
         driver_attrs_update = {
             DriverDTO.phone_number: driver.phone_number,
-            DriverDTO.wallet: driver.wallet,
             DriverDTO.preferred_location_latitude: driver.location.latitude,
             DriverDTO.preferred_location_longitude: driver.location.longitude,
             DriverDTO.preferred_location_name: driver.location.name

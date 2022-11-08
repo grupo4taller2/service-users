@@ -19,7 +19,6 @@ class RiderDTO(Base):
                                           primary_key=True,
                                           index=True)
     phone_number: Union[str, Column] = Column(String)
-    wallet: Union[str, Column] = Column(String)
     preferred_location_name: Union[str, Column] = Column(String)
     preferred_location_latitude: Union[float, Column] = Column(Float)
     preferred_location_longitude: Union[float, Column] = Column(Float)
@@ -35,7 +34,6 @@ class RiderDTO(Base):
         return RiderDTO(
             username=rider.username,
             phone_number=rider.phone_number,
-            wallet=rider.wallet,
             preferred_location_name=rider.location.name,
             preferred_location_latitude=rider.location.latitude,
             preferred_location_longitude=rider.location.longitude,
