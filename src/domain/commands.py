@@ -88,25 +88,25 @@ class DriverQualyGetAverageCommand(Command):
 
 
 class DriverQualyCreateCommand(Command):
-    passenger_username: str
-    qualy: int
+    rider_username: str
+    qualy: float
     opinion: str
     driver_username: str
 
 
-class PassengerQualyGetCommand(Command):
-    passenger_username: str
+class RiderQualyGetCommand(Command):
+    rider_username: str
 
 
-class PassengerQualyGetAverageCommand(Command):
-    passenger_username: str
+class RiderQualyGetAverageCommand(Command):
+    rider_username: str
 
 
-class PassengerQualyCreateCommand(Command):
+class RiderQualyCreateCommand(Command):
     driver_username: str
-    qualy: int
+    qualy: float
     opinion: str
-    passenger_username: str
+    rider_username: str
 
 
 class AdminCreateCommand(Command):
