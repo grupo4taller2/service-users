@@ -7,7 +7,6 @@ from src.domain import (
 
 class Driver(user.User):
     phone_number: str
-    wallet: str
     location: location.Location
     car: car.Car
 

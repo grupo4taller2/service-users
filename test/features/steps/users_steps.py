@@ -13,7 +13,6 @@ def step_add_n_users(context, n_users):
                 "last_name": "lname",
                 "email": f'theuser{i}@domain.com',
                 "password": "secret",
-                "wallet": "wallet"
                 }
         )
         assert response.status_code == 201
@@ -29,7 +28,6 @@ def step_create_user(context, username):
             "last_name": "lname",
             "email": f'{username}@test.com',
             "password": "secret",
-            "wallet": "wallet"
             }
     )
     assert response.status_code == 201
