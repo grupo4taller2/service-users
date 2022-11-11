@@ -34,12 +34,6 @@ def upgrade() -> None:
         sa.Column('updated_at', sa.DateTime, server_default=func.now(),
                   onupdate=func.current_timestamp()),
     )
-    query = "INSERT INTO pricing_rules"
-    query += "(id, c_km, c_trips_last_30m, c_rating, c_min_price) "
-    query += "VALUES "
-    query += "('b41f0e30-fada-490f-998f-d9f6e0d8efa9',"
-    query += "'1.23', '2.34', '3.45', '4.56')"
-    op.execute(query)
 
 
 def downgrade() -> None:
