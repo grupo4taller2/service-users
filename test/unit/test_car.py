@@ -10,3 +10,7 @@ def test_car_creation():
         color='Neon Blue'
     )
     assert car.model == 'Model X'
+    assert car.plate == 'AAA 111'
+    assert car.manufacturer == 'Tesla'
+    assert car.year_of_production == 2020
+    assert car.color == 'Neon Blue'

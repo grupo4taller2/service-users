@@ -6,7 +6,6 @@ from src.domain import (
 
 class Rider(user.User):
     phone_number: str
-    wallet: str
     location: location.Location
 
     class Config:
