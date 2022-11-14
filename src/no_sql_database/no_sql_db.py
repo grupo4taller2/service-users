@@ -11,4 +11,4 @@ db = client["fastapi"]
 
 driver_collection = db.driver_collection
 
-passenger_collection = db.passenger_collection
+rider_collection = db.rider_collection

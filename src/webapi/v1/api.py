@@ -6,7 +6,7 @@ from src.webapi.v1.drivers import drivers_controller
 from src.webapi.v1.admins import admins_controller
 from src.webapi.v1.healthcheck import healthcheck
 from src.webapi.v1.qualy_drivers import qualy_drivers
-from src.webapi.v1.qualy_passenger import qualy_passenger
+from src.webapi.v1.qualy_rider import qualy_rider
 
 api_router = APIRouter()
 
@@ -32,10 +32,10 @@ api_router.include_router(healthcheck.router,
 
 
 api_router.include_router(qualy_drivers.router,
-                          prefix="/qualy/drivers",
+                          prefix="/drivers",
                           tags=["qualy_driver"])
 
 
-api_router.include_router(qualy_passenger.router,
-                          prefix="/qualy/passengers",
-                          tags=["qualy_passenger"])
+api_router.include_router(qualy_rider.router,
+                          prefix="/riders",
+                          tags=["qualy_rider"])

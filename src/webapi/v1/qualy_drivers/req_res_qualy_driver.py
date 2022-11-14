@@ -8,14 +8,14 @@ class Driver_qualification_update_request(BaseModel):
 
 
 class Driver_qualification_response(BaseModel):
-    passenger_username: str = Field(example="cool_username")
-    qualy: int = Field(example=1)
+    rider_username: str = Field(example="cool_username")
+    qualy: float = Field(example=1)
     opinion: str = Field(example="good driver")
     driver_username: str = Field(example="driver_username")
 
 
 class Driver_qualy_create_request(BaseModel):
-    passenger_username: str = Field(example="cool_username")
-    qualy: int = Field(example=1)
+    rider_username: str = Field(example="cool_username")
+    qualy: float = Field(example=1)
     opinion: str = Field(example="good driver")
     driver_username: str = Field(example="driver_username")

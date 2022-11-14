@@ -84,8 +84,8 @@ COMMAND_HANDLERS = {
     commands.DriverQualyGetCommand: handlers.get_qualy_driver,
     commands.DriverQualyCreateCommand: handlers.create_qualy_driver,
     commands.DriverQualyGetAverageCommand: handlers.get_qualy_average_driver,
-    commands.PassengerQualyGetCommand: handlers.get_qualy_passenger,
-    commands.PassengerQualyCreateCommand: handlers.create_qualy_passenger,
-    commands.PassengerQualyGetAverageCommand:
-    handlers.get_qualy_average_passenger,
+    commands.RiderQualyGetCommand: handlers.get_qualy_rider,
+    commands.RiderQualyCreateCommand: handlers.create_qualy_rider,
+    commands.RiderQualyGetAverageCommand:
+    handlers.get_qualy_average_rider,
 }  # type: Dict[Type[commands.Command], Callable]
