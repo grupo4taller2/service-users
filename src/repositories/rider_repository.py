@@ -54,7 +54,6 @@ class RiderRepository(BaseRepository):
                       blocked=user_dto.blocked,
                       events=[],
                       phone_number=rider_dto.phone_number,
-                      wallet=rider_dto.wallet,
                       location=location
                       )
 
@@ -85,7 +84,6 @@ class RiderRepository(BaseRepository):
                       blocked=user_dto.blocked,
                       events=[],
                       phone_number=rider_dto.phone_number,
-                      wallet=rider_dto.wallet,
                       location=location
                       )
 
@@ -119,7 +117,6 @@ class RiderRepository(BaseRepository):
                       blocked=user_dto.blocked,
                       events=[],
                       phone_number=rider_dto.phone_number,
-                      wallet=rider_dto.wallet,
                       location=location
                       )
 
@@ -134,7 +131,6 @@ class RiderRepository(BaseRepository):
         }
         rider_attrs_update = {
             RiderDTO.phone_number: rider.phone_number,
-            RiderDTO.wallet: rider.wallet,
             RiderDTO.preferred_location_latitude: rider.location.latitude,
             RiderDTO.preferred_location_longitude: rider.location.longitude,
             RiderDTO.preferred_location_name: rider.location.name

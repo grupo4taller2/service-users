@@ -4,7 +4,6 @@ from src.webapi.v1.users import req_res_users_models
 
 
 class DriverCreateRequest(req_res_users_models.UserCreateRequest):
-    wallet: str = Field(example="drfk4qwt5k9t77498w")
     phone_number: str = Field(example='+54123456789')
     preferred_location_latitude: float = Field(example=-34.612580)
     preferred_location_longitude: float = Field(example=-58.408061)
@@ -17,7 +16,6 @@ class DriverCreateRequest(req_res_users_models.UserCreateRequest):
 
 
 class DriverResponse(req_res_users_models.UserResponse):
-    wallet: str = Field(example="cryptowallet")
     phone_number: str = Field(example='+54123456789')
     preferred_location_latitude: float = Field(example=-34.612580)
     preferred_location_longitude: float = Field(example=-58.408061)
@@ -33,7 +31,6 @@ class DriverUpdateRequest(BaseModel):
     first_name: Optional[str] = Field(example="f_name")
     last_name: Optional[str] = Field(example="l_name")
     phone_number: Optional[str] = Field(example="+54911112225454")
-    wallet: Optional[str] = Field(example="sh4kf84ert544uo")
     preferred_location_latitude: Optional[float] = Field(example=-34.612580)
     preferred_location_longitude: Optional[float] = Field(example=-58.408061)
     preferred_location_name: Optional[str] = \

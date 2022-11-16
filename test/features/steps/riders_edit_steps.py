@@ -27,11 +27,6 @@ def step_choose_phone_number(context, some_phone_number):
     context.vars["chosen_rider"].phone_number = some_phone_number
 
 
-@given(u'I choose "{a_wallet}" for wallet')
-def step_choose_wallet(context, a_wallet):
-    context.vars["chosen_rider"].wallet = a_wallet
-
-
 @given(u'I choose {:f} as preferred location latitude')
 def step_choose_preferred_location_latitude(context, latitude):
     context.vars["chosen_rider"].preferred_location_latitude = latitude
@@ -55,7 +50,6 @@ def step_register_as_rider_with_chosen_args(context):
         "first_name": rider.first_name,
         "last_name": rider.last_name,
         "email": rider.email,
-        "wallet": rider.wallet,
         "phone_number": rider.phone_number,
         "preferred_location_latitude": rider.preferred_location_latitude,
         "preferred_location_longitude": rider.preferred_location_longitude,

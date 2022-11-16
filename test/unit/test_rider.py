@@ -8,7 +8,6 @@ def test_rider_creation():
                   last_name='Calvo',
                   blocked=False,
                   email='macalvo@fi.uba.ar',
-                  wallet='aaa111',
                   phone_number='123456789',
                   location=Location(-34.544879, -58.451024, 'El Monumental')
                   )
@@ -22,7 +21,6 @@ def test_rider_creation_with_empty_list_of_events():
                   last_name='Calvo',
                   email='macalvo@fi.uba.ar',
                   blocked=False,
-                  wallet='aaa111',
                   phone_number='123456789',
                   location=Location(-34.544879, -58.451024, 'El Monumental'),
                   events=[]
@@ -37,7 +35,6 @@ def test_rider_equality():
                       last_name='Calvo',
                       email='macalvo@fi.uba.ar',
                       blocked=False,
-                      wallet='aaa111',
                       phone_number='123456789',
                       location=Location(-34.544879, -58.451024,
                                         'El Monumental'),
@@ -48,7 +45,6 @@ def test_rider_equality():
                       last_name='James',
                       email='lebronjames@fi.uba.ar',
                       blocked=False,
-                      wallet='aaa111',
                       phone_number='123456789',
                       location=Location(-34.544879, -58.451024,
                                         'El Monumental'),

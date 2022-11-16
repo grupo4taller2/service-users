@@ -84,7 +84,6 @@ def _rider_from_cmd(cmd: Command) -> Rider:
         blocked=False,
         events=[],
         phone_number=cmd.phone_number,
-        wallet=cmd.wallet,
         location=_location_from_cmd(cmd),
     )
 
@@ -98,7 +97,6 @@ def _driver_from_cmd(cmd: Command) -> Driver:
         blocked=False,
         events=[],
         phone_number=cmd.phone_number,
-        wallet=cmd.wallet,
         location=_location_from_cmd(cmd),
         car=_car_from_cmd(cmd),
     )
@@ -165,8 +163,6 @@ def update_rider(cmd: RiderUpdateCommand, uow: AbstractUnitOfWork):
             rider.last_name = cmd.last_name
         if cmd.phone_number:
             rider.phone_number = cmd.phone_number
-        if cmd.wallet:
-            rider.wallet = cmd.wallet
         loc_name = cmd.preferred_location_name
         loc_lat = cmd.preferred_location_latitude
         loc_long = cmd.preferred_location_longitude
@@ -204,8 +200,6 @@ def update_driver(cmd: DriverUpdateCommand, uow: AbstractUnitOfWork):
             driver.last_name = cmd.last_name
         if cmd.phone_number:
             driver.phone_number = cmd.phone_number
-        if cmd.wallet:
-            driver.wallet = cmd.wallet
         loc_name = cmd.preferred_location_name
         loc_lat = cmd.preferred_location_latitude
         loc_long = cmd.preferred_location_longitude

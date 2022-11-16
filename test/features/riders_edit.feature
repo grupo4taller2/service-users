@@ -6,7 +6,6 @@ Feature: Riders edit
             And I choose "lname" for last name
             And I choose "mateo@mateo.com" for email
             And I choose "1236" for phone number
-            And I choose "asd123" for wallet
             And I choose -34.0 as preferred location latitude
             And I choose -34.0 as preferred location longitude
             And I choose "some name" as preferred location name

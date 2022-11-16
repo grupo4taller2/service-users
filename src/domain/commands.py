@@ -30,7 +30,6 @@ class UserGetAllCommand(Command):
 
 class RiderCreateCommand(UserCreateCommand):
     phone_number: str
-    wallet: str
     preferred_location_name: str
     preferred_location_latitude: float
     preferred_location_longitude: float
@@ -45,7 +44,6 @@ class RiderUpdateCommand(Command):
     last_name: Optional[str]
     email: EmailStr
     phone_number: Optional[str]
-    wallet: Optional[str]
     preferred_location_name: Optional[str]
     preferred_location_latitude: Optional[float]
     preferred_location_longitude: Optional[float]
@@ -53,7 +51,6 @@ class RiderUpdateCommand(Command):
 
 class DriverCreateCommand(UserCreateCommand):
     phone_number: str
-    wallet: str
     preferred_location_name: str
     preferred_location_latitude: float
     preferred_location_longitude: float
@@ -73,7 +70,6 @@ class DriverUpdateCommand(Command):
     last_name: Optional[str]
     email: EmailStr
     phone_number: Optional[str]
-    wallet: Optional[str]
     preferred_location_name: Optional[str]
     preferred_location_latitude: Optional[float]
     preferred_location_longitude: Optional[float]
