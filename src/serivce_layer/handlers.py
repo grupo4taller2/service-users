@@ -1,3 +1,4 @@
+# flake8: noqa
 
 from src.webapi.v1.qualy_drivers.req_res_qualy_driver import (
     Driver_qualification_response,
@@ -287,13 +288,14 @@ def average_calculation(docs):
 
 
 def get_qualy_driver(cmd: DriverQualyGetCommand, uow: AbstractUnitOfWork):
-    docs = driver_collection.find({"driver_username": cmd.driver_username})
-    lista_docs = mongo_docs_to_list(docs)
-    if (len(lista_docs) == 0):
+    if (driver_collection.count_documents(
+            {"driver_username": cmd.driver_username}, limit = 1) == 0):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content=str("Driver not found")
         )
+    docs = driver_collection.find({"driver_username": cmd.driver_username})
+    lista_docs = mongo_docs_to_list(docs)
     return lista_docs
 
 
@@ -313,26 +315,27 @@ def create_qualy_driver(cmd: DriverQualyCreateCommand,
 def get_qualy_average_driver(
     cmd: DriverQualyGetAverageCommand, uow: AbstractUnitOfWork
 ):
-    docs = driver_collection.find({"driver_username": cmd.driver_username})
-    promedio = average_calculation(docs)
-    if (promedio == 0):
+    if (driver_collection.count_documents({"driver_username": cmd.driver_username}, limit = 1) == 0):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content=str("Driver not found")
-        )
+    )
+    docs = driver_collection.find({"driver_username": cmd.driver_username})
+    promedio = average_calculation(docs)
+    
     return promedio
 
 
 def get_qualy_rider(cmd: RiderQualyGetCommand,
                     uow: AbstractUnitOfWork):
-    docs = rider_collection \
-            .find({"rider_username": cmd.rider_username})
-    lista_docs = mongo_docs_to_list(docs)
-    if (len(lista_docs) == 0):
+    if (rider_collection.count_documents({"rider_username": cmd.rider_username}, limit = 1) == 0):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content=str("Rider not found")
         )
+    docs = rider_collection \
+            .find({"rider_username": cmd.rider_username})
+    lista_docs = mongo_docs_to_list(docs)
     return lista_docs
 
 
@@ -352,12 +355,13 @@ def create_qualy_rider(cmd: RiderQualyCreateCommand,
 def get_qualy_average_rider(
     cmd: RiderQualyGetAverageCommand, uow: AbstractUnitOfWork
 ):
-    docs = rider_collection \
-            .find({"rider_username": cmd.rider_username})
-    promedio = average_calculation(docs)
-    if (promedio == 0):
+    if (rider_collection.count_documents({"rider_username": cmd.rider_username}, limit = 1) == 0):
         return JSONResponse(
             status_code=status.HTTP_404_NOT_FOUND,
             content=str("Rider not found")
         )
+    docs = rider_collection \
+            .find({"rider_username": cmd.rider_username})
+    
+    promedio = average_calculation(docs)
     return promedio

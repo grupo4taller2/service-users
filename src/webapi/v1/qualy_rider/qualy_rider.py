@@ -42,7 +42,7 @@ async def create_rider(req: Rider_qualy_create_request):
 
 
 @router.get(
-    "/{username}/qualy/average/",
+    "/{username}/qualy/average",
     status_code=status.HTTP_200_OK,
 )
 async def get_average_rider(username: str):
