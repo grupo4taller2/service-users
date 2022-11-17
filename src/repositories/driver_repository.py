@@ -45,7 +45,6 @@ class DriverRepository(BaseRepository):
 
         try:
             self.session.add(rider_dto)
-            self.seen.add(driver)
         except Exception:
             pass
 
