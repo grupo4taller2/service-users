@@ -18,17 +18,21 @@ class RiderRepository(BaseRepository):
         self.session: Session = session
 
     def save(self, rider: Rider):
+        user_dto = UserDTO.from_entity(rider)
         rider_dto = RiderDTO.from_entity(rider)
+        try:
+            self.session.add(user_dto)
+            self.session.flush()
+        except Exception as e:
+            print("RREl usuario ya existía, no lo voy a volver a crear")
+
         try:
             self.session.add(rider_dto)
             self.seen.add(rider)
-        except IntegrityError:
-            user_dto = UserDTO.from_entity(rider)
-            self.session.add(user_dto)
-            self.session.flush()
-            self.session.add(rider_dto)
         except Exception:
-            raise
+            print("RREl rider ya existía, no lo voy a volver a crear")
+
+        return rider
 
     def find_by_username(self, username: str) -> Rider:
         try:

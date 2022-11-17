@@ -146,8 +146,8 @@ def get_rider(cmd: RiderGetCommand, uow: AbstractUnitOfWork):
 
 def create_rider(cmd: RiderCreateCommand, uow: AbstractUnitOfWork):
     with uow:
-        user = _user_from_cmd(cmd)
-        uow.user_repository.save(user)
+        # user = _user_from_cmd(cmd)
+        # uow.user_repository.save(user)
         rider = _rider_from_cmd(cmd)
         uow.rider_repository.save(rider)
         uow.commit()
@@ -176,8 +176,8 @@ def update_rider(cmd: RiderUpdateCommand, uow: AbstractUnitOfWork):
 def create_driver(cmd: DriverCreateCommand, uow: AbstractUnitOfWork):
     with uow:
         # FIXME: Fijarse que no exista, handlear bien
-        user = _user_from_cmd(cmd)
-        uow.user_repository.save(user)
+        # user = _user_from_cmd(cmd)
+        # uow.user_repository.save(user)
         driver = _driver_from_cmd(cmd)
         uow.driver_repository.save(driver)
         uow.commit()

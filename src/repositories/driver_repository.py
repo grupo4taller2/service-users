@@ -13,6 +13,7 @@ from src.domain.driver import Driver
 from src.domain.location import Location
 from src.database.user_dto import UserDTO
 from src.database.driver_dto import DriverDTO
+from src.database.rider_dto import RiderDTO
 from src.database.car_dto import CarDTO
 
 
@@ -22,21 +23,30 @@ class DriverRepository(BaseRepository):
         self.session: Session = session
 
     def save(self, driver: Driver):
+        user_dto = UserDTO.from_entity(driver)
+        rider_dto = RiderDTO.from_entity(driver)
         driver_dto = DriverDTO.from_entity(driver)
         car_dto = CarDTO.from_entity(driver, driver.car)
+        try:
+            self.session.add(user_dto)
+            self.session.flush()
+        except Exception as e:
+            print("DDEl usuario ya existía, no lo voy a volver a crear")
+        
         try:
             self.session.add(driver_dto)
             self.session.flush()
             self.session.add(car_dto)
-        except IntegrityError:
-            user_dto = UserDTO.from_entity(driver)
-            self.session.add(user_dto)
-            self.session.flush()
-            self.session.add(driver_dto)
-            self.session.flush()
-            self.session.add(car_dto)
         except Exception:
-            raise
+            print("DDEl chofer ya existía, no lo voy a volver a crear")
+            
+        try:
+            self.session.add(rider_dto)
+            self.seen.add(rider)
+        except Exception:
+            print("DDEl rider ya existía, no lo voy a volver a crear")
+
+        return driver
 
     def find_by_username(self, username: str) -> Driver:
         try:
