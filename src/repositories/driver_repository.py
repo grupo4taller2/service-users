@@ -17,6 +17,9 @@ from src.database.rider_dto import RiderDTO
 from src.database.car_dto import CarDTO
 
 
+# FIXME: pass en exceptions es horrible
+
+
 class DriverRepository(BaseRepository):
     def __init__(self, session):
         super().__init__()
@@ -30,21 +33,21 @@ class DriverRepository(BaseRepository):
         try:
             self.session.add(user_dto)
             self.session.flush()
-        except Exception as e:
-            print("DDEl usuario ya existía, no lo voy a volver a crear")
-        
+        except Exception:
+            pass
+
         try:
             self.session.add(driver_dto)
             self.session.flush()
             self.session.add(car_dto)
         except Exception:
-            print("DDEl chofer ya existía, no lo voy a volver a crear")
-            
+            pass
+
         try:
             self.session.add(rider_dto)
-            self.seen.add(rider)
+            self.seen.add(driver)
         except Exception:
-            print("DDEl rider ya existía, no lo voy a volver a crear")
+            pass
 
         return driver
 

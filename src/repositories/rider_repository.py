@@ -23,14 +23,14 @@ class RiderRepository(BaseRepository):
         try:
             self.session.add(user_dto)
             self.session.flush()
-        except Exception as e:
-            print("RREl usuario ya existía, no lo voy a volver a crear")
+        except Exception:
+            pass
 
         try:
             self.session.add(rider_dto)
             self.seen.add(rider)
         except Exception:
-            print("RREl rider ya existía, no lo voy a volver a crear")
+            pass
 
         return rider
 
