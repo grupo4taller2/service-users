@@ -1,4 +1,6 @@
 
+from fastapi.responses import JSONResponse
+
 from fastapi import APIRouter, status
 from src.webapi.v1.qualy_drivers.req_res_qualy_driver import (
     Driver_qualy_create_request,
@@ -31,6 +33,16 @@ async def get_qualys_driver(username: str):
 )
 async def create_driver(req: Driver_qualy_create_request):
     print(req.qualy)
+    if (req.qualy > 5):
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content=str("Qualy puntation is over 5")
+        )
+    if (req.qualy < 0):
+        return JSONResponse(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content=str("Qualy puntation is under 0")
+        )
     cmd = commands.DriverQualyCreateCommand(
         rider_username=req.rider_username,
         opinion=req.opinion,
