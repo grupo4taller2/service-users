@@ -1,14 +1,9 @@
 
-from fastapi.responses import JSONResponse
-
 from fastapi import APIRouter, status
-from src.webapi.v1.tokens.req_res_push_token import (
-    Push_token_creation
-)
+from src.webapi.v1.tokens.req_res_push_token import (Push_token_creation)
 
 
-from src.domain.rider_qualification import Rider_qualification
-from src.domain.push_token import Push_token
+# from src.domain.push_token import Push_token
 from src.repositories.unit_of_work_mongo import UnitOfWorkMongo
 from src.domain import commands
 from src.serivce_layer import messagebus

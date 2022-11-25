@@ -6,4 +6,3 @@ from pydantic import Field, BaseModel
 class Push_token_creation(BaseModel):
     username: str = Field(example="cool_username")
     token: str = Field(example="asdadgghfgdsdwefdsdaNSA")
-

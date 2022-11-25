@@ -64,8 +64,10 @@ class DriverCreateCommand(UserCreateCommand):
 class DriverGetCommand(Command):
     email: str
 
+
 class DriverGetAllCommand(Command):
     cantidad: int
+
 
 class DriverUpdateCommand(Command):
     first_name: Optional[str]
