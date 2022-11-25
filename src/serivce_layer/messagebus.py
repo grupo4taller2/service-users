@@ -88,4 +88,6 @@ COMMAND_HANDLERS = {
     commands.RiderQualyCreateCommand: handlers.create_qualy_rider,
     commands.RiderQualyGetAverageCommand:
     handlers.get_qualy_average_rider,
+    commands.PushTokenCreateCommand: handlers.create_push_token,
+    commands.DriverGetAllCommand: handlers.get_all_drivers,
 }  # type: Dict[Type[commands.Command], Callable]

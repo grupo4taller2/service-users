@@ -25,13 +25,16 @@ from src.domain.commands import (
     RiderQualyCreateCommand,
     RiderQualyGetCommand,
     RiderQualyGetAverageCommand,
-    UserGetAllCommand
+    UserGetAllCommand,
+    PushTokenCreateCommand,
+    DriverGetAllCommand
 )
 from src.domain.events import (
     UserCreatedEvent
 )
 from src.no_sql_database.no_sql_db import driver_collection, \
-                                        rider_collection
+                                        rider_collection, \
+                                        token_collection
 
 from src.serivce_layer.abstract_unit_of_work import AbstractUnitOfWork
 
@@ -359,3 +362,31 @@ def get_qualy_average_rider(
     
     promedio = average_calculation(docs)
     return promedio
+
+
+def create_push_token(cmd: PushTokenCreateCommand,
+                       uow: AbstractUnitOfWork):
+    # pasa0r de cmd a objeto-crear-metodo
+    if (token_collection.count_documents({"username": cmd.username}, limit = 1) == 0):
+        token_collection.insert_one({
+            "username": cmd.username,
+            "token": cmd.token
+        })
+        return {
+            "username": cmd.username,
+            "token": cmd.token
+            }
+    else:
+        filter = { "username": cmd.username }
+        newvalues = { "$set": { "token": cmd.token } }
+        token_collection.update_one(filter, newvalues)
+        return {
+            "username": cmd.username,
+            "token": cmd.token
+            }
+    
+def get_all_drivers(cmd:DriverGetAllCommand, uow: AbstractUnitOfWork):
+    with uow:
+        driver_list = uow.driver_repository.get_all_drivers_usernames()
+        uow.commit()
+        return driver_list
