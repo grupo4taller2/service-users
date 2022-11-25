@@ -112,3 +112,17 @@ async def update_driver_status(email: str, req: DriverUpdateRequest):
         car_year_of_production=driver.car.year_of_production,
         car_color=driver.car.color,
         car_plate=driver.car.plate)
+
+
+
+@router.get(
+    '/username/all',
+    status_code=status.HTTP_200_OK,
+)
+async def get_drivers():
+    cmd = commands.DriverGetAllCommand(
+        cantidad= 10
+    )
+    uow = UnitOfWork()
+    driver_list = messagebus.handle(cmd, uow)[0]
+    return driver_list

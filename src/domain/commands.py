@@ -64,6 +64,8 @@ class DriverCreateCommand(UserCreateCommand):
 class DriverGetCommand(Command):
     email: str
 
+class DriverGetAllCommand(Command):
+    cantidad: int
 
 class DriverUpdateCommand(Command):
     first_name: Optional[str]
@@ -103,6 +105,11 @@ class RiderQualyCreateCommand(Command):
     qualy: float
     opinion: str
     rider_username: str
+
+
+class PushTokenCreateCommand(Command):
+    username: str
+    token: str
 
 
 class AdminCreateCommand(Command):

@@ -152,3 +152,9 @@ class DriverRepository(BaseRepository):
 
     def find_by_email_or_username(self, email: str, username: str) -> User:
         raise NotImplementedError
+
+    def get_all_drivers_usernames(self):
+        username_list = []
+        for driver_username in self.session.query(DriverDTO.username):
+            username_list.append(driver_username)
+        return username_list
