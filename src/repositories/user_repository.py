@@ -1,4 +1,3 @@
-from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 from src.serivce_layer.exceptions import UserNotFoundException
@@ -6,6 +5,15 @@ from src.serivce_layer.exceptions import UserNotFoundException
 from src.repositories.base_repository import BaseRepository
 from src.domain.user import User
 from src.database.user_dto import UserDTO
+
+
+def round_down_to_nearest_multiple_of(offset, limit, n_pages):
+    for i in range(0, n_pages):
+        current_multiple = i * limit
+        next_multiple = (i + 1) * limit
+        if offset >= current_multiple and offset < next_multiple:
+            return current_multiple
+    return 0
 
 
 class UserRepository(BaseRepository):
@@ -79,7 +87,11 @@ class UserRepository(BaseRepository):
     def update(self, user: User) -> User:
         raise NotImplementedError
 
-    def all(self, username_like: str, offset: int, limit: int) -> List[User]:
+    def all(self, username_like: str, offset: int, limit: int):
+        total_users = self.session.query(UserDTO.username).count()
+        total_pages = (total_users // limit) + 1*(total_users % limit != 0)
+        offset = round_down_to_nearest_multiple_of(offset, limit, total_pages)
+        current_page = (offset // limit) + 1
         user_dtos = self.session.query(UserDTO)
         if username_like is not None:
             user_dtos = user_dtos.filter(
@@ -91,4 +103,4 @@ class UserRepository(BaseRepository):
             user = u_dto.to_entity()
             self.seen.add(user)
             found_users.append(user)
-        return found_users
+        return current_page, total_pages, found_users

@@ -8,7 +8,8 @@ from src.serivce_layer import messagebus
 
 from src.webapi.v1.users.req_res_users_models import (
     UserCreateRequest,
-    UserResponse
+    UserResponse,
+    AllUsersResponse
 )
 
 router = APIRouter()
@@ -74,7 +75,7 @@ async def create_user(req: UserCreateRequest):
 @router.get(
     '/',
     status_code=status.HTTP_200_OK,
-    response_model=List[UserResponse]
+    response_model=AllUsersResponse
 )
 async def get_with_username_like_offset_limit(
         username_like: Optional[str] = None,
@@ -87,11 +88,9 @@ async def get_with_username_like_offset_limit(
         offset=offset,
         limit=limit
     )
-    users = messagebus.handle(cmd, uow)[0]
-    return [
-        UserResponse(username=u.username,
-                     first_name=u.first_name,
-                     last_name=u.last_name,
-                     email=u.email)
-        for u in users
-    ]
+    actual_page, total_pages, users = messagebus.handle(cmd, uow)[0]
+    return AllUsersResponse(
+        actual_page=actual_page,
+        total_pages=total_pages,
+        users=users
+    )
