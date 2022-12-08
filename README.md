@@ -12,7 +12,7 @@ Read the [documentation](https://fiuber-docs.readthedocs.io/en/latest/) for inst
 
 ## OpenAPI documentation
 
-Following this [link](https://g4-fiuber.herokuapp.com/docs).
+Following this [link](https://g4-fiuber-service-users.herokuapp.com/docs).
 
 ## Needed Repository Secrets
 
