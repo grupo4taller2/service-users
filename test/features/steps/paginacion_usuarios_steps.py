@@ -78,7 +78,8 @@ def step_impl_usuario_con_nombre(context, n_users, start):
         create_user(context, name)
 
 
-@when(u'obtengo los usuarios con offset {:d} limit {:d} y nombre similar a "{like}"')
+@when(u'obtengo los usuarios con offset {:d} limit {:d} '
+      'y nombre similar a "{like}"')
 def step_impl_get_con_like_offset_limit(context, offset, limit, like):
     client: TestClient = context.client
     params = {
@@ -94,7 +95,8 @@ def step_impl_get_con_like_offset_limit(context, offset, limit, like):
     context.vars['obtained_page'] = response.json()
 
 
-@then(u'los usuarios desde {:d} hasta {:d} que empiezan con "{like}" estan en la pagina actual')
+@then(u'los usuarios desde {:d} hasta {:d} que empiezan con "{like}" '
+      'estan en la pagina actual')
 def step_impl_find_like(context, first_user, last_user, like):
     all_usernames = [
         user['username'] for user in context.vars['obtained_page'].get('users')
