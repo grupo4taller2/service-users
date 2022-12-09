@@ -69,3 +69,38 @@ def step_impl_usuarios_contenidos(context, first_user, last_user):
 def step_impl_comparacion_cantidad_users(context, n_users):
     obtained_users = len(context.vars['obtained_page'].get('users'))
     assert obtained_users == n_users
+
+
+@given(u'existen {:d} usuarios registrados que empiezan con "{start}"')
+def step_impl_usuario_con_nombre(context, n_users, start):
+    for i in range(n_users):
+        name = f'{start}_{i}'
+        create_user(context, name)
+
+
+@when(u'obtengo los usuarios con offset {:d} limit {:d} '
+      'y nombre similar a "{like}"')
+def step_impl_get_con_like_offset_limit(context, offset, limit, like):
+    client: TestClient = context.client
+    params = {
+        'offset': offset,
+        'limit': limit,
+        'username_like': like
+    }
+    response = client.get(
+        Settings().API_V1_STR + '/users/',
+        params=params
+    )
+    assert response.status_code == 200
+    context.vars['obtained_page'] = response.json()
+
+
+@then(u'los usuarios desde {:d} hasta {:d} que empiezan con "{like}" '
+      'estan en la pagina actual')
+def step_impl_find_like(context, first_user, last_user, like):
+    all_usernames = [
+        user['username'] for user in context.vars['obtained_page'].get('users')
+    ]
+    for u in range(first_user, last_user + 1):
+        username = f'{like}_{u}'
+        assert username in all_usernames
