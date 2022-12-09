@@ -69,3 +69,23 @@ def step_impl_usuarios_contenidos(context, first_user, last_user):
 def step_impl_comparacion_cantidad_users(context, n_users):
     obtained_users = len(context.vars['obtained_page'].get('users'))
     assert obtained_users == n_users
+
+
+@given(u'existen 7 usuarios registrados que empiezan con "user"')
+def step_impl(context):
+    raise NotImplementedError(u'STEP: Given existen 7 usuarios registrados que empiezan con "user"')
+
+
+@given(u'existen 3 usuarios registrados que empiezan con "mateo"')
+def step_impl(context):
+    raise NotImplementedError(u'STEP: Given existen 3 usuarios registrados que empiezan con "mateo"')
+
+
+@when(u'obtengo los usuarios con offset 0 limit 3 y nombre similar a "mat"')
+def step_impl(context):
+    raise NotImplementedError(u'STEP: When obtengo los usuarios con offset 0 limit 3 y nombre similar a "mat"')
+
+
+@then(u'los usuarios desde 0 hasta 2 con nombre "mateo" estan en la pagina actual')
+def step_impl(context):
+    raise NotImplementedError(u'STEP: Then los usuarios desde 0 hasta 2 con nombre "mateo" estan en la pagina actual')

@@ -175,3 +175,12 @@ Feature: Pagina actual y paginas totales al obtener los usuarios
             And el numero de paginas totales es 3
             And los usuarios desde 6 hasta 6 estan en la pagina actual
             And la pagina actual tiene 1 usuarios
+
+    Scenario: Paginacion con 7 usuarios que empiezan con user, 3 que empiezan con mateo, limit 3, primera pagina con offset 6
+        Given existen 7 usuarios registrados que empiezan con "user"
+            And existen 3 usuarios registrados que empiezan con "mateo"
+        When obtengo los usuarios con offset 0 limit 3 y nombre similar a "mat"
+        Then el numero de pagina actual es 1
+            And el numero de paginas totales es 1
+            And los usuarios desde 0 hasta 2 con nombre "mateo" estan en la pagina actual
+            And la pagina actual tiene 3 usuarios
