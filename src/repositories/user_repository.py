@@ -88,14 +88,15 @@ class UserRepository(BaseRepository):
         raise NotImplementedError
 
     def all(self, username_like: str, offset: int, limit: int):
-        total_users = self.session.query(UserDTO.username).count()
-        total_pages = (total_users // limit) + 1*(total_users % limit != 0)
-        offset = round_down_to_nearest_multiple_of(offset, limit, total_pages)
-        current_page = (offset // limit) + 1
         user_dtos = self.session.query(UserDTO)
         if username_like is not None:
             user_dtos = user_dtos.filter(
                 UserDTO.username.ilike(f'%{username_like}%'))
+
+        total_users = user_dtos.count()
+        total_pages = (total_users // limit) + 1*(total_users % limit != 0)
+        offset = round_down_to_nearest_multiple_of(offset, limit, total_pages)
+        current_page = (offset // limit) + 1
 
         user_dtos = user_dtos.limit(limit).offset(offset)
         found_users = []
