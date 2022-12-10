@@ -94,7 +94,12 @@ async def update_driver_status(email: str, req: DriverUpdateRequest):
         phone_number=req.phone_number,
         preferred_location_latitude=req.preferred_location_latitude,
         preferred_location_longitude=req.preferred_location_longitude,
-        preferred_location_name=req.preferred_location_name
+        preferred_location_name=req.preferred_location_name,
+        car_manufacturer=req.car_manufacturer,
+        car_model=req.car_model,
+        car_year_of_production=req.car_year_of_production,
+        car_color=req.car_color,
+        car_plate=req.car_plate
     )
     uow = UnitOfWork()
     driver: Driver = messagebus.handle(cmd, uow)[0]
