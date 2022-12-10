@@ -138,11 +138,21 @@ class DriverRepository(BaseRepository):
             DriverDTO.preferred_location_longitude: driver.location.longitude,
             DriverDTO.preferred_location_name: driver.location.name
         }
+        car_attrs_update = {
+            CarDTO.manufacturer: driver.car.manufacturer,
+            CarDTO.model: driver.car.model,
+            CarDTO.year_of_production: driver.car.year_of_production,
+            CarDTO.color: driver.car.color,
+            CarDTO.plate: driver.car.plate
+        }
         try:
             self.session.query(UserDTO).filter_by(username=driver.username) \
                 .update(user_attrs_update)
             self.session.query(DriverDTO).filter_by(username=driver.username) \
                 .update(driver_attrs_update)
+            self.session.query(CarDTO) \
+                .filter_by(driver_username=driver.username) \
+                .update(car_attrs_update)
             self.seen.add(driver)
         except IntegrityError:
             raise DriverNotFoundException(driver_dto.username)

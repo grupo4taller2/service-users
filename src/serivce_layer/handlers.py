@@ -208,6 +208,17 @@ def update_driver(cmd: DriverUpdateCommand, uow: AbstractUnitOfWork):
         loc_long = cmd.preferred_location_longitude
         if loc_name and loc_lat and loc_long:
             driver.location = Location(loc_lat, loc_long, loc_name)
+        if cmd.car_manufacturer:
+            driver.car.manufacturer = cmd.car_manufacturer
+        if cmd.car_model:
+            driver.car.model = cmd.car_model
+        if cmd.car_year_of_production:
+            driver.car.year_of_production = cmd.car_year_of_production
+        if cmd.car_color:
+            driver.car.color = cmd.car_color
+        if cmd.car_plate:
+            driver.car.plate = cmd.car_plate
+        
         updated_driver = uow.driver_repository.update(driver)
         uow.commit()
         return updated_driver

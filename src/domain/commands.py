@@ -77,6 +77,11 @@ class DriverUpdateCommand(Command):
     preferred_location_name: Optional[str]
     preferred_location_latitude: Optional[float]
     preferred_location_longitude: Optional[float]
+    car_manufacturer: Optional[str]
+    car_model: Optional[str]
+    car_year_of_production: Optional[int]
+    car_color: Optional[str]
+    car_plate: Optional[str]
 
 
 class DriverQualyGetCommand(Command):
