@@ -35,3 +35,8 @@ class DriverUpdateRequest(BaseModel):
     preferred_location_longitude: Optional[float] = Field(example=-58.408061)
     preferred_location_name: Optional[str] = \
         Field(example='Av. Paseo Colón 850')
+    car_manufacturer: Optional[str] = Field(example='Ford')
+    car_model: Optional[str] = Field(example='Fiesta Max')
+    car_year_of_production: Optional[int] = Field(example=2008)
+    car_color: Optional[str] = Field(example='Red')
+    car_plate: Optional[str] = Field(example='BBB 888')
