@@ -311,6 +311,7 @@ def create_qualy_driver(cmd: DriverQualyCreateCommand,
                         uow: AbstractUnitOfWork):
     # pasa0r de cmd a objeto-crear-metodo
     cmd_as_dict = command_to_dict(cmd)
+    print(cmd_as_dict)
     driver_collection.insert_one(cmd_as_dict)
     return Driver_qualification_response(
         rider_username=cmd.rider_username,
